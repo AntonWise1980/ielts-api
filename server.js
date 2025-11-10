@@ -10,7 +10,32 @@ const rateLimit = require('express-rate-limit');
 
 const app = express();
 app.set('trust proxy', 1);
+
+//avien
+// Aiven SSL gerektirir → ssl objesi ekle
+const pool = mysql.createPool({
+  uri: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: true // Aiven için zorunlu
+  }
+});
+
+app.get('/api/health', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT 1 + 1 AS result');
+    res.json({ status: 'OK', db: rows[0].result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`API running on port ${PORT}`);
+});
+
+// avien bitiş: const PORT = process.env.PORT || 3000;
 
 // ---------- GÜVENLİ IP ALIMI (IPv6 → IPv4) ----------
 const getCleanIp = (req) => {
