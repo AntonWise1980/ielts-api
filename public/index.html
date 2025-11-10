@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sözlük API - Ana Sayfa</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Sözlük API</h1>
+        
+        <!-- ARAMA ALANI -->
+        <div class="search-section">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Kelime arayın (örn: Abide)"
+                value=""
+            >
+            <button id="searchBtn">Ara</button>
+        </div>
+
+        <!-- SONUÇ ALANI -->
+        <div id="resultSection" class="result-section" style="display: none;">
+            <h3 id="resultWord"></h3>
+            <div class="result-data">
+                <div class="synonyms">
+                    <strong>Eş Anlamlılar:</strong> 
+                    <span id="synonymsList"></span>
+                </div>
+                <div class="antonyms">
+                    <strong>Zıt Anlamlılar:</strong> 
+                    <span id="antonymsList"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- HATA MESAJI -->
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <p>Bu API, kelimeleri ve zıt/eş anlamlılarını sorgulamanızı sağlar.</p>
+        <div class="highlight">/api/data?search=kelime</div>
+        <div class="example">
+            <strong>Örnek Kullanım:</strong><br>
+            <a href="/api/data?search=Abide" target="_blank">
+                http://localhost:3000/api/data?search=Abide
+            </a>
+        </div>
+        <p>
+            <strong>Parametre:</strong> <code>search</code> - Aranacak kelime (büyük/küçük harf duyarsız)
+        </p>
+        <p>
+            <strong>Dönen Veri:</strong> <code>{ id, word, synonyms, antonyms }</code>
+        </p>
+        <p>
+            Veritabanında tam eşleşme aranır. Kelime bulunamazsa <code>404</code> döner.
+        </p>
+        <footer>
+            <p>Sunucu: <strong>http://localhost:3000</strong></p>
+            <p>Tasarım & Geliştirme: Senin Kodun</p>
+        </footer>
+    </div>
+
+    <script>
+        // Arama fonksiyonu
+        document.getElementById('searchBtn').addEventListener('click', searchWord);
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchWord();
+        });
+
+        async function searchWord() {
+            const searchInput = document.getElementById('searchInput');
+            const word = searchInput.value.trim();
+            
+            // Boş kontrol
+            if (!word) {
+                showError('Lütfen bir kelime girin!');
+                return;
+            }
+
+            // Loading göster
+            document.getElementById('searchBtn').textContent = 'Aranıyor...';
+            document.getElementById('searchBtn').disabled = true;
+
+            try {
+                const response = await fetch(`/api/data?search=${encodeURIComponent(word)}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showResult(data);
+                } else if (response.status === 404) {
+                    showError(`"${word}" kelimesi bulunamadı.`);
+                } else if (response.status === 400) {
+                    const errorData = await response.json();
+                    showError(errorData.message);
+                } else {
+                    showError('Bir hata oluştu. Lütfen tekrar deneyin.');
+                }
+            } catch (error) {
+                showError('Bağlantı hatası! Sunucu çalışıyor mu?');
+            } finally {
+                // Buton reset
+                document.getElementById('searchBtn').textContent = 'Ara';
+                document.getElementById('searchBtn').disabled = false;
+            }
+        }
+
+        function showResult(data) {
+            // Hata ve sonuç alanlarını gizle
+            hideError();
+            document.getElementById('resultSection').style.display = 'block';
+
+            // Kelimeyi göster
+            document.getElementById('resultWord').textContent = data.word;
+
+            // Eş anlamlılar
+            const synonyms = data.synonyms || 'Yok';
+            document.getElementById('synonymsList').innerHTML = 
+                Array.isArray(synonyms) ? synonyms.join(', ') : synonyms;
+
+            // Zıt anlamlılar
+            const antonyms = data.antonyms || 'Yok';
+            document.getElementById('antonymsList').innerHTML = 
+                Array.isArray(antonyms) ? antonyms.join(', ') : antonyms;
+        }
+
+        function showError(message) {
+            hideResult();
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function hideResult() {
+            document.getElementById('resultSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

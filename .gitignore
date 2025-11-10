@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+
+# Build & Dist
+dist/
+build/
+
+# Package lock
+package-lock.json
