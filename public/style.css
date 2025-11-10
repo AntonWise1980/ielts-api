@@ -1,418 +1,295 @@
 /* style.css */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #000000 0%, #4a4747 100%);
-    color: #fff;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* Derin gece mavisi → Kömür grisi */
+  color: #f5f5f5; /* Yumuşak beyaz */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-/* Container - Responsive genişlik */
+/* Container - Cam efekti */
 .container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 40px;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    margin: 0 auto; /* Ortalamak için */
+  background: rgba(15, 23, 42, 0.4); /* Koyu cam */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  margin: 0 auto;
 }
 
 /* Başlık */
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
 }
 
 /* Paragraf */
 p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin: 1rem 0;
-    opacity: 0.9;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+  opacity: 0.92;
 }
 
 /* Kod vurgusu */
 .highlight {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 12px 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    display: inline-block;
-    font-size: 1rem;
+  background: rgba(212, 175, 55, 0.15); /* Altın sarısı çok hafif arka plan */
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 1rem;
+  border-left: 3px solid #d4af37;
+  color: #d4af37;
 }
 
 /* Örnek kullanım kutusu */
 .example {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    border-radius: 8px;
-    margin: 15px 0;
-    font-size: 1rem;
-    word-break: break-all; /* Uzun URL'ler taşmasın */
+  background: rgba(30, 41, 59, 0.5);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 1rem;
+  word-break: break-all;
+  border: 1px solid rgba(100, 181, 246, 0.2);
 }
 
 /* Footer */
 footer {
-    margin-top: 30px;
-    font-size: 0.9rem;
-    opacity: 0.7;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  opacity: 0.75;
+  color: #94a3b8;
 }
 
 /* Linkler */
 a {
-    color: #a8e6cf;
-    text-decoration: none;
-    word-break: break-all; /* Uzun linkler taşmasın */
+  color: #64b5f6; /* Modern mavi */
+  text-decoration: none;
+  word-break: break-all;
+  transition: color 0.2s ease;
 }
-
 a:hover {
-    text-decoration: underline;
+  color: #90cdf4;
+  text-decoration: underline;
 }
 
 /* -------------------------------------------------
    RESPONSIVE TASARIM - MOBİL UYUMLU
    ------------------------------------------------- */
-
-/* Tablet ve küçük ekranlar (768px ve altı) */
 @media (max-width: 768px) {
-    .container {
-        padding: 30px 25px;
-        border-radius: 14px;
-    }
-
-    h1 {
-        font-size: 2.2rem;
-    }
-
-    p {
-        font-size: 1.05rem;
-    }
-
-    .highlight {
-        padding: 10px 16px;
-        font-size: 0.95rem;
-        margin: 18px 0;
-    }
-
-    .example {
-        padding: 14px;
-        font-size: 0.95rem;
-    }
+  .container {
+    padding: 30px 25px;
+    border-radius: 14px;
+  }
+  h1 { font-size: 2.2rem; }
+  p { font-size: 1.05rem; }
+  .highlight { padding: 10px 16px; font-size: 0.95rem; margin: 18px 0; }
+  .example { padding: 14px; font-size: 0.95rem; }
 }
 
-/* Mobil cihazlar (576px ve altı) */
 @media (max-width: 576px) {
-    body {
-        padding: 15px;
-    }
-
-    .container {
-        padding: 25px 20px;
-        border-radius: 12px;
-    }
-
-    h1 {
-        font-size: 1.9rem;
-        margin-bottom: 0.8rem;
-    }
-
-    p {
-        font-size: 1rem;
-        margin: 0.9rem 0;
-    }
-
-    .highlight {
-        padding: 10px 14px;
-        font-size: 0.9rem;
-        margin: 16px 0;
-        display: block; /* Küçük ekranda tam genişlik */
-        width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .example {
-        padding: 12px;
-        font-size: 0.9rem;
-        margin: 12px 0;
-    }
-
-    .example a {
-        font-size: 0.85rem;
-        word-break: break-word;
-    }
-
-    footer {
-        margin-top: 25px;
-        font-size: 0.85rem;
-    }
-
-    footer p {
-        margin: 0.5rem 0;
-    }
+  body { padding: 15px; }
+  .container { padding: 25px 20px; border-radius: 12px; }
+  h1 { font-size: 1.9rem; margin-bottom: 0.8rem; }
+  p { font-size: 1rem; margin: 0.9rem 0; }
+  .highlight {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    margin: 16px 0;
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .example { padding: 12px; font-size: 0.9rem; margin: 12px 0; }
+  .example a { font-size: 0.85rem; word-break: break-word; }
+  footer { margin-top: 25px; font-size: 0.85rem; }
+  footer p { margin: 0.5rem 0; }
 }
 
-/* Çok küçük ekranlar (400px ve altı) - iPhone SE gibi */
 @media (max-width: 400px) {
-    h1 {
-        font-size: 1.7rem;
-    }
-
-    .container {
-        padding: 20px 15px;
-    }
-
-    .highlight {
-        font-size: 0.85rem;
-        padding: 8px 12px;
-    }
+  h1 { font-size: 1.7rem; }
+  .container { padding: 20px 15px; }
+  .highlight { font-size: 0.85rem; padding: 8px 12px; }
 }
 
-
-/* ARAMA ALANI - YENİ EKlenen */
+/* ARAMA ALANI */
 .search-section {
-    display: flex;
-    gap: 10px;
-    margin: 20px 0 30px 0;
-    justify-content: center;
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 30px 0;
+  justify-content: center;
 }
 
 #searchInput {
-    flex: 1;
-    max-width: 300px;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
-    outline: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  max-width: 300px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e293b;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
 }
-
+#searchInput:focus {
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+  background: #ffffff;
+}
 #searchInput::placeholder {
-    color: #666;
+  color: #64748b;
 }
 
 #searchBtn {
-    padding: 12px 24px;
-    background: #ffffff;
-    color: #333;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px 24px;
+  background: #d4af37; /* Altın sarısı */
+  color: #1e293b;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-
 #searchBtn:hover {
-    background: #d8b505;
-    transform: translateY(-1px);
+  background: #e6c74a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
-
 #searchBtn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
+  background: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* SONUÇ ALANI */
 .result-section {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 12px;
-    margin: 20px 0;
-    text-align: left;
+  background: rgba(15, 23, 42, 0.5);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  text-align: left;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 #resultWord {
-    font-size: 1.8rem;
-    color: #d8b505;
-    margin-bottom: 15px;
-    text-align: center;
+  font-size: 1.8rem;
+  color: #d4af37;
+  margin-bottom: 15px;
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  font-weight: 600;
 }
 
 .result-data {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .synonyms, .antonyms {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    font-size: 1rem;
+  padding: 10px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 6px;
+  font-size: 1rem;
+  max-height: 120px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-word;
+  padding-right: 8px;
+  border-left: 3px solid #d4af37;
 }
 
-.synonyms strong {
-    color: #d8b505;
-}
-
+.synonyms strong,
 .antonyms strong {
-    color: #d8b505;
+  color: #d4af37;
+  font-weight: 600;
 }
 
 /* HATA MESAJI */
 .error-message {
-    background: rgba(255, 107, 107, 0.2);
-    color: #ff6b6b;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 20px 0;
-    font-weight: bold;
-    border-left: 4px solid #ff6b6b;
+  background: rgba(231, 76, 60, 0.15);
+  color: #f87171;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+  font-weight: bold;
+  border-left: 4px solid #e74c3c;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
-/* RESPONSIVE - ARAMA ALANI */
-@media (max-width: 576px) {
-    .search-section {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #searchInput {
-        max-width: 100%;
-        margin-bottom: 10px;
-    }
-
-    #searchBtn {
-        width: 100%;
-        max-width: 200px;
-    }
-
-    .result-section {
-        padding: 15px;
-    }
-
-    #resultWord {
-        font-size: 1.5rem;
-    }
-
-    .synonyms, .antonyms {
-        font-size: 0.95rem;
-        padding: 8px;
-    }
-}
-
-/* ===== TAŞMA ÖNLEYİCİ & RESPONSIVE SONUÇ ALANI ===== */
-
-/* Sonuç kutusu - taşma olmasın */
-.result-section {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 12px;
-    margin: 20px 0;
-    text-align: left;
-    
-    /* TAŞMA KONTROLÜ */
-    overflow: hidden;              /* Taşan içeriği gizle */
-    word-wrap: break-word;         /* Uzun kelimeleri kır */
-    overflow-wrap: break-word;     /* Modern tarayıcılar */
-    hyphens: auto;                 /* Kelime bölme */
-}
-
-/* Eş / Zıt anlamlılar listesi - taşma olmasın */
-.synonyms,
-.antonyms {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    font-size: 1rem;
-    
-    /* Uzun liste taşmasın */
-    max-height: 120px;             /* Maksimum yükseklik */
-    overflow-y: auto;              /* Dikey kaydırma */
-    overflow-x: hidden;            /* Yatay taşma yok */
-    word-break: break-word;        /* Uzun kelime kır */
-    padding-right: 8px;            /* Kaydırma çubuğu için boşluk */
-}
-
-/* Kaydırma çubuğu güzel görünsün (WebKit) */
+/* Kaydırma Çubuğu (WebKit) */
 .synonyms::-webkit-scrollbar,
 .antonyms::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
-
 .synonyms::-webkit-scrollbar-track,
 .antonyms::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
 }
-
 .synonyms::-webkit-scrollbar-thumb,
 .antonyms::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 3px;
+  background: rgba(212, 175, 55, 0.4);
+  border-radius: 3px;
 }
-
 .synonyms::-webkit-scrollbar-thumb:hover,
 .antonyms::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.6);
+  background: rgba(212, 175, 55, 0.6);
 }
 
-/* Kelime başlığı - taşma olmasın */
-#resultWord {
-    font-size: 1.8rem;
-    color: #a30652;
-    margin-bottom: 15px;
-    text-align: center;
-    word-break: break-word;        /* Çok uzun kelime varsa kır */
-    overflow-wrap: anywhere;       /* Her yerde kır */
-}
-
-/* Hata mesajı da taşmasın */
-.error-message {
-    background: rgba(255, 107, 107, 0.2);
-    color: #ff6b6b;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 20px 0;
-    font-weight: bold;
-    border-left: 4px solid #ff6b6b;
-    
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-/* MOBİL UYUMLU - KÜÇÜK EKRANLAR */
+/* RESPONSIVE - MOBİL */
 @media (max-width: 576px) {
-    .result-section {
-        padding: 15px;
-        margin: 15px 0;
-    }
-
-    #resultWord {
-        font-size: 1.5rem;
-    }
-
-    .synonyms,
-    .antonyms {
-        font-size: 0.95rem;
-        padding: 8px;
-        max-height: 100px;
-    }
-
-    /* Mobil'de kaydırma çubuğu daha ince */
-    .synonyms::-webkit-scrollbar,
-    .antonyms::-webkit-scrollbar {
-        width: 4px;
-    }
+  .search-section {
+    flex-direction: column;
+    align-items: center;
+  }
+  #searchInput {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  #searchBtn {
+    width: 100%;
+    max-width: 200px;
+  }
+  .result-section { padding: 15px; margin: 15px 0; }
+  #resultWord { font-size: 1.5rem; }
+  .synonyms, .antonyms {
+    font-size: 0.95rem;
+    padding: 8px;
+    max-height: 100px;
+  }
+  .synonyms::-webkit-scrollbar,
+  .antonyms::-webkit-scrollbar {
+    width: 4px;
+  }
 }
