@@ -17,7 +17,7 @@
     "debug": "^4.4.3",
     "denque": "^2.1.0",
     "depd": "^2.0.0",
-    "dotenv": "^17.2.3",
+    "dotenv": "^16.4.5",
     "dunder-proto": "^1.0.1",
     "ee-first": "^1.1.1",
     "encodeurl": "^2.0.0",
