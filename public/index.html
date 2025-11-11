@@ -77,6 +77,17 @@ value=""
 </div>
 <script>
 // Search function
+// Input'a ekle (script'in başına)
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    // Sadece harf bırak, diğerlerini sil
+    this.value = this.value.replace(/[^a-zA-Z]/g, '');
+    
+    // Eğer silinen karakter varsa küçük bir ipucu göster (opsiyonel)
+    if (this.value !== e.target.value) {
+        // Kısa süreli ipucu gösterebilirsin ama şimdilik basit tutalım
+    }
+});
+
 document.getElementById('searchBtn').addEventListener('click', searchWord);
 document.getElementById('searchInput').addEventListener('keypress', function(e) {
 if (e.key === 'Enter') searchWord();
