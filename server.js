@@ -97,47 +97,65 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// API endpoint to search for a word in the database
+// API endpoint to search for a word or return random if no search
 app.get('/api/data', async (req, res) => {
+    let connection;
     try {
-        // Get and validate search query parameter
-        let search = req.query.search?.trim();
-        if (!search) {
-            return res.status(400).json({ error: 'Arama kelimesi gerekli' });
-        }
+        const search = req.query.search?.trim();
 
-        // Normalize search term: lowercase and trim
-        search = search.toLowerCase().trim();
-
-        // Create a new database connection
-        const connection = await mysql.createConnection({
+        // Veritabanı bağlantısı
+        connection = await mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_DATABASE,
         });
 
-        // Query the database for an exact match (case-insensitive, trimmed)
-        const query = `SELECT * FROM data_json_tbl WHERE LOWER(TRIM(word)) = ? LIMIT 1`;
-        const [rows] = await connection.query(query, [search]);
+        let rows;
 
-        // Close the database connection
+        if (!search) {
+            // RASTGELE KELİME
+            const [countResult] = await connection.query('SELECT COUNT(*) as total FROM data_json_tbl');
+            const total = countResult[0].total;
+
+            if (total === 0) {
+                await connection.end();
+                return res.status(404).json({ error: 'Veritabanında veri yok' });
+            }
+
+            const randomOffset = Math.floor(Math.random() * total);
+            [rows] = await connection.query('SELECT * FROM data_json_tbl LIMIT 1 OFFSET ?', [randomOffset]);
+        } else {
+            // ARAMA
+            const lowerSearch = search.toLowerCase();
+            [rows] = await connection.query(
+                'SELECT * FROM data_json_tbl WHERE LOWER(TRIM(word)) = ? LIMIT 1',
+                [lowerSearch]
+            );
+        }
+
         await connection.end();
 
-        // Return 404 if no matching word is found
-        if (rows.length === 0) {
+        if (!rows || rows.length === 0) {
             return res.status(404).json({ error: 'Sonuç bulunamadı' });
         }
 
-        // Return the found data as JSON
+        // Doğrudan veritabanından gelen satırı dön
         res.json(rows[0]);
 
     } catch (error) {
-        // Log error and return 500 with details
-        console.error('Hata:', error);
-        res.status(500).json({ error: 'Bir hata oluştu', details: error.message });
+        console.error('API Hatası:', error);
+        if (connection) {
+            try { await connection.end(); } catch {}
+        }
+        res.status(500).json({ error: 'Sunucu hatası', details: error.message });
     }
 });
+
+
+// API endpoint to search for a word or return random if no search
+
+
 
 // Start the server and log startup information
 app.listen(PORT, () => {
