@@ -44,11 +44,19 @@ value=""
 </a>
 </div>
 <p>
-<strong>Parameter:</strong> <code>search</code> - Word to search (case insensitive)
-</p>
-<p>
 <strong>Returned Data:</strong> <code>{ id, word, synonyms, antonyms }</code>
 </p>
+<div class="example" style="margin-top: 20px;">
+    <strong>Random Synonym:</strong><br>
+    <a href="/api/data" target="_blank">
+        https://synon-6f0dbe944806.herokuapp.com/api/data
+    </a>
+</div>
+
+<p>
+    <strong>Empty request:</strong> <code>/api/data</code> → For a random word is returned different on each request..
+</p>
+
 <p>
             An exact match is searched in the database. If the word is not found, <code>404</code> is returned.
 </p>
