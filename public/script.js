@@ -76,9 +76,9 @@ function showResult(data) {
         Array.isArray(synonyms) ? synonyms.join(', ') : synonyms;
 
     // Display antonyms (fallback to 'None' if not available)
-    const antonyms = data.antonyms || 'None';
-    document.getElementById('antonymsList').innerHTML = 
-        Array.isArray(antonyms) ? antonyms.join(', ') : antonyms;
+    //const antonyms = data.antonyms || 'None';
+    //document.getElementById('antonymsList').innerHTML = 
+    //    Array.isArray(antonyms) ? antonyms.join(', ') : antonyms;
 }
 
 // Show an error message in the UI
