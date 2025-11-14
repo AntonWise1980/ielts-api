@@ -293,3 +293,161 @@ a:hover {
     width: 4px;
   }
 }
+
+/* RASTGELE KELİME ALANI - SİYAH ZEMİN + YEŞİL YAZI */
+.random-result-section {
+    background-color: #000000;
+    color: #00FF00;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 25px 0;
+    border: 1px solid #00FF00;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.random-result-section h3 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #00FF00;
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+    font-weight: bold;
+}
+
+.random-data {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.random-data div {
+    background: rgba(0, 255, 0, 0.1);
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 3px solid #00FF00;
+    font-size: 1rem;
+}
+
+.random-data strong {
+    color: #00FF00;
+    font-weight: bold;
+}
+
+/* Yeşil parlama efekti */
+@keyframes glow {
+    from { box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); }
+    to { box-shadow: 0 0 20px rgba(0, 255, 0, 0.4), 0 0 30px rgba(0, 255, 0, 0.2); }
+}
+
+/* Mobil uyum */
+@media (max-width: 576px) {
+    .random-result-section {
+        padding: 15px;
+        margin: 20px 0;
+    }
+    .random-result-section h3 {
+        font-size: 1.5rem;
+    }
+    .random-data div {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+/* HAM JSON GÖSTERİMİ - TERMİNAL TEMA */
+.raw-json-section {
+    background-color: #000000;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    border-radius: 12px;
+    margin: 30px 0;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    animation: terminal-glow 2s ease-in-out infinite alternate;
+}
+
+.raw-header {
+    background-color: #001100;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed #00ff00;
+    text-align: center;
+    color: #00ff00;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.raw-json-section pre {
+    margin: 0;
+    padding: 15px;
+    overflow-x: auto;
+    background-color: #000000;
+    color: #00ff00;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.raw-json-section code {
+    display: block;
+    white-space: pre;
+}
+
+/* JSON anahtarlarını hafif sarı yap (isteğe bağlı güzellik) */
+.raw-json-section pre code::before {
+    content: '';
+}
+.raw-json-section pre code {
+    counter-reset: line;
+}
+.raw-json-section pre code span {
+    counter-increment: line;
+}
+
+/* Parantez ve anahtarlara renk */
+.raw-json-section pre code {
+    color: #00ff00;
+}
+.raw-json-section pre code .key {
+    color: #aaffaa;
+}
+.raw-json-section pre code .string {
+    color: #55ff55;
+}
+.raw-json-section pre code .number {
+    color: #00ffaa;
+}
+
+/* Animasyon */
+@keyframes terminal-glow {
+    from { box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); }
+    to { box-shadow: 0 0 25px rgba(0, 255, 0, 0.5), 0 0 35px rgba(0, 255, 0, 0.2); }
+}
+
+/* Mobil */
+@media (max-width: 576px) {
+    .raw-json-section {
+        margin: 20px 0;
+        border-radius: 10px;
+    }
+    .raw-header {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+    .raw-json-section pre {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Sayfa yüklendiğinde kutu hafif animasyonla gelsin */
+.raw-json-section {
+    animation: fadeIn 0.8s ease-out, terminal-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
