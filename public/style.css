@@ -185,19 +185,7 @@ a:hover {
   box-shadow: none;
 }
 
-/* SONUÇ ALANI */
-.result-section {
-  background: rgba(15, 23, 42, 0.5);
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-  text-align: left;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  overflow: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
+
 
 #resultWord {
   font-size: 1.8rem;
@@ -450,4 +438,30 @@ a:hover {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* JSON Syntax Highlighting Renkleri */
+.raw-json-section .key {
+    color: #aaffaa; /* Anahtar isimleri */
+}
+.raw-json-section .key-value {
+    color: #aaffaa;
+}
+.raw-json-section .string {
+    color: #55ff55; /* String değerler */
+}
+.raw-json-section .number {
+    color: #00ffaa; /* Sayılar */
+}
+.raw-json-section .boolean {
+    color: #ffaa00; /* true/false/null */
+}
+.raw-json-section .bracket {
+    color: #00ff00; /* [ ] { } */
+}
+
+.raw-json-section pre {
+    overflow-x: auto;
+    white-space: pre;
+    word-wrap: normal;
 }
