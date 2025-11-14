@@ -73,7 +73,7 @@ function showRawJsonResponse(data) {
 
     rawDiv.innerHTML = `
         <div class="raw-header">
-            <span>API Response (Raw JSON)</span>
+            <span>Random API Response (Raw JSON)</span>
         </div>
         <pre><code>${highlighted}</code></pre>
     `;
