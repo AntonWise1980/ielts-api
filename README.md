@@ -1,7 +1,7 @@
 
-# Teset App - English Synonyms API
+# Ielts Api App - English Synonyms API
 
-This is a lightweight **Node.js** web application that provides a **RESTful API** to search. I needed an API for the applications I developed in JavaScript for learning purposes. At that time, I thought this wouldn't work without creating an API service. My application, which I developed only for educational purposes, focuses on IELTS synonyms. I learned a lot while developing this API application. It was very useful. However, I am still looking for clean data. I will try to add it to the database as I find it. By the way it was mistake name "teset" I was trying to write test.
+This is a lightweight **Node.js** web application that provides a **RESTful API** to search. I needed an API for the applications I developed in JavaScript for learning purposes. At that time, I thought this wouldn't work without creating an API service. My application, which I developed only for educational purposes, focuses on IELTS synonyms. I learned a lot while developing this API application. It was very useful. However, I am still looking for clean data. I will try to add it to the database as I find it. 
 
 Anton Wise,
 2025

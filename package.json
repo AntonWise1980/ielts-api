@@ -1,5 +1,5 @@
 {
-  "name": "teset",
+  "name": "ielts-api",
   "version": "1.0.0",
   "description": "Synonyms & Antonyms API",
   "main": "server.js",
