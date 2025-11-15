@@ -205,10 +205,21 @@ app.get('/api/data', async (req, res) => {
     }
 
     const result = rows[0];
-    // synonyms and antonyms should always be arrays
-    result.synonyms = Array.isArray(result.synonyms) ? result.synonyms : [];
-    result.antonyms = Array.isArray(result.antonyms) ? result.antonyms : [];
 
+    // synonyms and antonyms should always be arrays and lowercase
+
+    // === YENİ: TÜM VERİYİ KÜÇÜK HARFE ÇEVİR ===
+    result.word = result.word.trim().toLowerCase();
+
+    result.synonyms = Array.isArray(result.synonyms)
+      ? result.synonyms.map(s => s.trim().toLowerCase())
+      : [];
+
+    result.antonyms = Array.isArray(result.antonyms)
+      ? result.antonyms.map(a => a.trim().toLowerCase())
+      : [];
+    // === SON ===
+    
     // Logging (IP + key status)
     const clientIp = getCleanIp(req);
     const logTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
