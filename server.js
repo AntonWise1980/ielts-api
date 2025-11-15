@@ -48,38 +48,58 @@ if (/^\d+\.\d+\.\d+\.\d+$/.test(ip)) return ip;
 return 'unknown';
 };
 // NEW: API Key Validation Middleware
+// YENİ: API Key Validation Middleware (Çift key reddeder + güvenli)
 async function validateApiKey(req, res, next) {
-const key = req.query.key?.trim();
-if (!key) {
-req.isKeyValid = false;
-return next(); // Rate limit will be applied
+  const keys = req.query.key; // Express.js: tek key → string, birden fazla → array
+  let key;
+
+  if (!keys) {
+    req.isKeyValid = false;
+    return next(); // Rate limit uygulanacak
   }
-try {
-const [rows] = await pool.query(
-'SELECT id, api_key, description FROM api_keys WHERE api_key = ? AND is_active = TRUE LIMIT 1',
+
+  // YENİ: Birden fazla key varsa → 400 Bad Request
+  if (Array.isArray(keys)) {
+    if (keys.length > 1) {
+      return res.status(400).json({
+        success: false,
+        error: 'Multiple keys not allowed',
+        message: 'Sadece bir API key kullanılabilir.'
+      });
+    }
+    key = keys[0].trim(); // İlk (ve tek) key
+  } else {
+    key = keys.trim(); // Tek key
+  }
+
+  try {
+    const [rows] = await pool.query(
+      'SELECT id, api_key, description FROM api_keys WHERE api_key = ? AND is_active = TRUE LIMIT 1',
       [key]
     );
-if (rows.length > 0) {
-req.isKeyValid = true;
-req.apiKeyInfo = rows[0];
-return next(); // Key valid → skip rate limit
+
+    if (rows.length > 0) {
+      req.isKeyValid = true;
+      req.apiKeyInfo = rows[0];
+      return next(); // Geçerli → rate limit atlanır
     } else {
-return res.status(401).json({
-success: false,
-error: 'Invalid API key',
-message: 'Please use a valid API key.',
-contact: 'antonwise1980@gmail.com'
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid API key',
+        message: 'Please use a valid API key.',
+        contact: 'antonwise1980@gmail.com'
       });
     }
   } catch (err) {
-console.error('API Key validation error:', err);
-return res.status(500).json({
-success: false,
-error: 'Server error',
-message: 'API key could not be validated.'
+    console.error('API Key validation error:', err);
+    return res.status(500).json({
+      success: false,
+      error: 'Server error',
+      message: 'API key could not be validated.'
     });
   }
 }
+
 // NEW: Rate Limiter - Only for requests without key
 const apiLimiter = rateLimit({
 windowMs: 24 * 60 * 60 * 1000, // 24 hours
