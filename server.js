@@ -134,73 +134,101 @@ res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 // API endpoint to search for a word or return random if no search
 app.get('/api/data', async (req, res) => {
-const search = req.query.search?.trim();
-const hasKey = !!req.query.key;
-let connection;
-try {
-// Get connection from pool (more performant)
-connection = await pool.getConnection();
-let rows;
-if (!search) {
-// RANDOM WORD
-const [countResult] = await connection.query('SELECT COUNT(*) as total FROM data_json_tbl');
-const total = countResult[0].total;
-if (total === 0) {
-return res.status(404).json({ success: false, error: 'No data in database' });
+  const search = req.query.search?.trim();
+  const hasKey = !!req.query.key;
+  let connection;
+  try {
+    // Get connection from pool (more performant)
+    connection = await pool.getConnection();
+    let rows;
+
+    if (!search) {
+      // RANDOM WORD (BU KISIM DEĞİŞMEDİ – %100 ÇALIŞIYOR)
+      const [countResult] = await connection.query('SELECT COUNT(*) as total FROM data_json_tbl');
+      const total = countResult[0].total;
+      if (total === 0) {
+        // YENİ: 404 + meta eklendi ama mantık aynı
+        return res.status(404).json({
+          success: false,
+          error: 'No data in database',
+          message: 'Veritabanında hiç kelime yok.',
+          meta: {
+            timestamp: new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' }),
+            powered_by: 'IELTS Synonyms API'
+          }
+        });
       }
-const randomOffset = Math.floor(Math.random() * total);
+      const randomOffset = Math.floor(Math.random() * total);
       [rows] = await connection.query('SELECT * FROM data_json_tbl LIMIT 1 OFFSET ?', [randomOffset]);
     } else {
-// SEARCH
-const lowerSearch = search.toLowerCase();
+      // SEARCH
+      const lowerSearch = search.toLowerCase();
       [rows] = await connection.query(
-'SELECT * FROM data_json_tbl WHERE LOWER(TRIM(word)) = ? LIMIT 1',
+        'SELECT * FROM data_json_tbl WHERE LOWER(TRIM(word)) = ? LIMIT 1',
         [lowerSearch]
       );
     }
-if (!rows || rows.length === 0) {
-return res.status(404).json({
-success: false,
-error: 'No result found',
-searched: search || 'random'
+
+    // YENİ: Bulunamadı → 404 + zengin meta
+    if (!rows || rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'No result found',
+        message: `Arama: "${search || 'random'}" → Sonuç yok.`,
+        meta: {
+          searched: search || 'random',
+          timestamp: new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' }),
+          powered_by: 'IELTS Synonyms API',
+          api_key_used: hasKey
+        }
       });
     }
-const result = rows[0];
-// synonyms and antonyms should always be arrays
-result.synonyms = Array.isArray(result.synonyms) ? result.synonyms : [];
-result.antonyms = Array.isArray(result.antonyms) ? result.antonyms : [];
-// Logging (IP + key status)
-const clientIp = getCleanIp(req);
-const logTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
-console.log(`[${logTime}] Search: "${search || 'random'}" | IP: ${clientIp} | Key: ${hasKey ? 'Yes' : 'No'}`);
-// Richer response
-res.json({
-success: true,
-data: result,
-meta: {
-searched: search || null,
-timestamp: new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' }),
-powered_by: 'IELTS Synonyms API',
-api_key_used: hasKey,
-...(hasKey && { note: 'Unlimited access provided with API key.' })
+
+    const result = rows[0];
+    // synonyms and antonyms should always be arrays
+    result.synonyms = Array.isArray(result.synonyms) ? result.synonyms : [];
+    result.antonyms = Array.isArray(result.antonyms) ? result.antonyms : [];
+
+    // Logging (IP + key status)
+    const clientIp = getCleanIp(req);
+    const logTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
+    console.log(`[${logTime}] Search: "${search || 'random'}" | IP: ${clientIp} | Key: ${hasKey ? 'Yes' : 'No'}`);
+
+    // YENİ: 200 OK + success:true + meta (res.json yerine status(200))
+    res.status(200).json({
+      success: true,
+      data: result,
+      meta: {
+        searched: search || null,
+        timestamp: new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' }),
+        powered_by: 'IELTS Synonyms API',
+        api_key_used: hasKey,
+        ...(hasKey && { note: 'Unlimited access provided with API key.' })
       }
     });
   } catch (error) {
-console.error('API Error:', error);
-res.status(500).json({
-success: false,
-error: 'Server error',
-details: error.message
+    // YENİ: 500 + detaylı hata + meta
+    console.error('API Error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      message: 'Sunucu hatası oluştu.',
+      details: error.message,
+      meta: {
+        timestamp: new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' }),
+        powered_by: 'IELTS Synonyms API'
+      }
     });
   } finally {
-if (connection) connection.release(); //Release the connection
+    if (connection) connection.release(); //Release the connection
   }
 });
+
 // Start the server and log startup information
 app.listen(PORT, () => {
-const startTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
-console.log(`Server listening on http://localhost:${PORT}`);
-console.log(`Turkey time: ${startTime}`);
-console.log(`Rate Limit: 500 requests / 24 hours (only for users without key)`);
-console.log(`Unlimited access with API Key is active.`);
+  const startTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
+  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`Turkey time: ${startTime}`);
+  console.log(`Rate Limit: 500 requests / 24 hours (only for users without key)`);
+  console.log(`Unlimited access with API Key is active.`);
 });
