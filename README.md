@@ -43,7 +43,7 @@ If you have any feedback, please reach out to us at antonwise1980@gmaildotcom
 
 ## How It Works
 
-1. **Server Startup**
+1. **Index Startup**
    - Loads environment variables from `.env`
    - Starts Express server on `PORT` (default: 3000)
    - Logs startup time in **Turkey time (Europe/Istanbul)**
