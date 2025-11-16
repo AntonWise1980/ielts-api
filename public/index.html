@@ -1,51 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Synonyms ielts - ielts API</title>
-    <link rel="stylesheet" href="/style.css" /> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Synonyms API | Free & Unlimited Synonym Service</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/style.css">
 </head>
 <body>
-<div class="container">
-    <a href="https://synon-6f0dbe944806.herokuapp.com/"><h1>Synonyms API</h1></a>
-    <!-- SEARCH AREA -->
-    <div class="search-section">
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Search for a word (e.g. Absence)"
-            value=""
-        >
-        <button id="searchBtn">Search</button>
-    </div>
-    <!-- ERROR MESSAGE -->
-    <div id="errorMessage" class="error-message" style="display: none;"></div>
-    <p>This API allows you to query words and their synonyms/antonyms.</p>
-    
+  <div class="container">
 
-    <!-- CONTACT BUTTONS -->
-    <div class="contact-buttons">
-        <a href="https://github.com/AntonWise1980" target="_blank" class="contact-btn github-btn" title="GitHub Profile">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            GitHub
-        </a>
-        <a href="mailto:antonwise1980@gmail.com" class="contact-btn email-btn" title="Send Email">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            Email
-        </a>
+    <!-- Header -->
+    <header>
+      <h1>IELTS Synonyms API</h1>
+      <p>A fast, powerful, and free REST API for English synonyms</p>
+      <div style="margin-top: 1rem;">
+        <span class="badge">Free 500 Requests/Day</span>
+        <span class="badge">Unlimited with API Key</span>
+        <span class="badge">JSON Support</span>
+      </div>
+    </header>
+
+    <!-- What is it? -->
+    <div class="section">
+      <h2>📖 What is it?</h2>
+      <p>
+        <strong>IELTS Synonyms API</strong> is a REST API that returns synonyms and antonyms for English words.
+      </p>
+      <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+        <li>Optimized for IELTS, TOEFL, academic writing, etc.</li>
+        <li>Data stored in the <code>data_json_tbl</code> table.</li>
+        <li><strong>Searches both the main word and the synonyms array</strong>.</li>
+        <li>If the search term is in synonyms → <strong>it becomes the main word</strong>, original word moves to the start of synonyms.</li>
+      </ul>
     </div>
-    <footer>
-        <p>Random Synonim: <strong>https://synon-6f0dbe944806.herokuapp.com/api/data/</strong></p>
-        <p>Search Synonim: <strong>https://synon-6f0dbe944806.herokuapp.com/api/data?search=Quick</strong></p>
-        <p>Design & Development: Anton Wise</p>
-    </footer>
-</div>
-<script src="/script.js"></script>
+
+    <!-- How does it work? -->
+    <div class="section">
+      <h2>⚙️ How does it work?</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>1. Search</h3>
+          <p><code>?search=hello</code> → Look for "hello" in word or synonyms.</p>
+        </div>
+        <div class="card">
+          <h3>2. No term?</h3>
+          <p>Returns a random word.</p>
+        </div>
+        <div class="card">
+          <h3>3. Found in synonyms?</h3>
+          <p>Searched term → <code>word</code>, original → <code>synonyms[0]</code></p>
+        </div>
+      </div>
+      <div class="highlight">
+        <strong>Example:</strong> <code>?search=hi</code> → <code>word: "hi"</code>, <code>synonyms: ["hello", ...]</code>
+      </div>
+    </div>
+
+    <!-- How to use? -->
+    <div class="section">
+      <h2>🚀 How to use?</h2>
+      <p>Endpoint: <code>GET /api/synonyms</code></p>
+
+      <h3 style="margin: 1.5rem 0 0.75rem;">1. Random Word</h3>
+      <div class="code">
+        GET http://localhost:3000/api/synonyms
+      </div>
+
+      <h3 style="margin: 1.5rem 0 0.75rem;">2. Search Word</h3>
+      <div class="code">
+        GET http://localhost:3000/api/synonyms?search=happy
+      </div>
+
+      <h3 style="margin: 1.5rem 0 0.75rem;">3. With API Key (Unlimited)</h3>
+      <div class="code">
+        GET http://localhost:3000/api/synonyms?search=fast&key=ABC123XYZ
+      </div>
+
+      <div class="warning-box">
+        <strong>Rate Limit:</strong> Without API key → <strong>500 requests / 24 hours</strong>. Wait 24h if exceeded.<br>
+        <strong>Solution:</strong> <a href="mailto:antonwise1980@gmail.com" style="color: var(--primary);">antonwise1980@gmail.com</a> → Get API key → <strong>unlimited access</strong>.
+      </div>
+    </div>
+
+    <!-- Example Response -->
+    <div class="section">
+      <h2>📄 Example Response (JSON)</h2>
+      <pre class="code">{
+  "success": true,
+  "data": {
+    "word": "happy",
+    "synonyms": ["joyful", "cheerful", "glad", "delighted"],
+    "antonyms": ["sad", "unhappy", "depressed"]
+  },
+  "meta": {
+    "searched": "happy",
+    "found_in": "word",
+    "timestamp": "11/16/2025 10:14:45 PM",
+    "powered_by": "IELTS Synonyms API",
+    "api_key_used": false
+  }
+}</pre>
+    </div>
+
+    <!-- Features -->
+    <div class="section">
+      <h2>✨ Features</h2>
+      <ul style="padding-left: 1.5rem; margin: 1rem 0;">
+        <li><span class="tag">Fast</span> MySQL Connection Pool for high performance</li>
+        <li><span class="tag">Secure</span> Rate limiting + IP cleaning + proxy support</li>
+        <li><span class="tag">Flexible</span> Unlimited access with API key</li>
+        <li><span class="tag">Smart</span> Auto-swap if found in synonyms</li>
+        <li><span class="tag">Turkey Time</span> All timestamps in Istanbul timezone</li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="section">
+      <h2>📩 Get API Key</h2>
+      <p>Contact for unlimited access:</p>
+      <a href="mailto:antonwise1980@gmail.com" class="btn">antonwise1980@gmail.com</a>
+      <p style="margin-top: 1rem; color: var(--gray-700);">
+        After getting the key: add <code>?key=XYZ123</code> → <strong>rate limit removed</strong>.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2025 IELTS Synonyms API | Developer: <strong>Anton Wise</strong></p>
+      <p>Server: <code>http://localhost:3000</code> | Active Endpoint: <code>/api/synonyms</code></p>
+    </div>
+  </div>
+
+  <!-- Test Button (Optional) -->
+  <script>
+    // Simple test button (optional)
+    function testApi() {
+      const search = prompt("Enter a word to search (leave empty for random):");
+      const key = prompt("Enter your API key if you have one (leave empty if not):") || "";
+      const url = `http://localhost:3000/api/synonyms${search ? `?search=${encodeURIComponent(search.trim())}` : ''}${key ? `${search ? '&' : '?'}key=${key}` : ''}`;
+      
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          alert(`Success!\nWord: ${data.data.word}\nSynonyms: ${data.data.synonyms.join(', ')}`);
+          console.log("Full Response:", data);
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+  </script>
+  <div style="position:fixed; bottom:20px; right:20px;">
+    <button onclick="testApi()" class="btn" style="background:var(--success); box-shadow:0 4px 12px rgba(16,185,129,0.3);">
+      🚀 Test the API
+    </button>
+  </div>
 </body>
 </html>
