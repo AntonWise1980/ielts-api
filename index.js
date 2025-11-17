@@ -1,35 +1,51 @@
 // Load environment variables from .env file
 require('dotenv').config({ debug: false });
-
 // Log database name for debugging
 console.log('DB_DATABASE:', process.env.DB_DATABASE);
+
+// === DEĞİŞİKLİK: Redis istemcisi eklendi ===
+const redis = require('redis');
+let redisClient = null;
+
+if (process.env.REDIS_URL) {
+  redisClient = redis.createClient({
+    url: process.env.REDIS_URL
+  });
+
+  redisClient.on('error', (err) => console.error('Redis Client Error:', err));
+  redisClient.on('connect', () => console.log('Redis connected successfully'));
+  redisClient.on('ready', () => console.log('Redis ready to use'));
+
+  redisClient.connect().catch(err => {
+    console.error('Redis connection failed:', err);
+    redisClient = null;
+  });
+} else {
+  console.warn('REDIS_URL not defined → Rate limiting will use in-memory store (only for local dev)');
+}
+// =============================================
 
 // Import required modules
 const express = require('express');
 const mysql = require('mysql2/promise');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
+// rate-limit-redis tamamen kaldırıldı, gerek yok!
 
-// Initialize Express app
 const app = express();
 
 if (process.env.NODE_ENV === 'production' || process.env.FORCE_HTTPS) {
   app.use((req, res, next) => {
-    // Heroku, Render, Fly.io gibi platformlarda bu header gelir
     if (req.headers['x-forwarded-proto'] !== 'https' && req.headers['x-forwarded-proto'] !== undefined) {
       return res.redirect(301, 'https://' + req.headers.host + req.url);
     }
-    // Eğer header yoksa (localde çalışıyorsa) devam et
     next();
   });
 }
-// Trust the first proxy (required for correct IP detection behind reverse proxies)
-app.set('trust proxy', 1);
 
-// Define server port from environment or default to 3000
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
-// MySQL Connection Pool (for performance and security)
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -47,7 +63,6 @@ const pool = mysql.createPool({
   }
 });
 
-// Extract clean IPv4 address from various sources, normalizing IPv6-mapped addresses
 const getCleanIp = (req) => {
   let ip = req.ip;
   if (!ip && req.connection?.remoteAddress) ip = req.connection.remoteAddress;
@@ -65,35 +80,24 @@ const getCleanIp = (req) => {
   return 'unknown';
 };
 
-// API Key Validation Middleware (Handles single/multiple keys, rejects duplicates)
-// ====== YENİ: Authorization Header’dan Bearer Token okuma ======
 function extractApiKey(req) {
-  // 1. Authorization: Bearer ...
   const authHeader = req.headers.authorization || req.headers.Authorization || '';
   if (authHeader.startsWith('Bearer ') || authHeader.startsWith('bearer ')) {
     return authHeader.split(' ')[1].trim();
   }
-
-  // 2. Query parameter ?key=...
   if (req.query.key) {
     const keys = Array.isArray(req.query.key) ? req.query.key : [req.query.key];
-    
-    // Birden fazla key göndermişse hemen reddet
     if (keys.length > 1) {
       throw new Error('MULTIPLE_QUERY_KEYS');
     }
-    
     return keys[0].trim();
   }
-
   return null;
 }
 
-// ====== GÜNCELLENMİŞ VE TAM GÜVENLİ validateApiKey Middleware’i ======
 async function validateApiKey(req, res, next) {
   let key;
   let keySource = 'none';
-
   try {
     key = extractApiKey(req);
   } catch (err) {
@@ -104,7 +108,6 @@ async function validateApiKey(req, res, next) {
         message: 'Only one API key can be provided in the query parameters.'
       });
     }
-    // Diğer beklenmeyen hatalar
     return res.status(400).json({
       success: false,
       error: 'Invalid API key format'
@@ -114,10 +117,9 @@ async function validateApiKey(req, res, next) {
   if (!key) {
     req.isKeyValid = false;
     req.usedKeySource = 'none';
-    return next(); // Anahtar yok → rate limit
+    return next();
   }
 
-  // Hem header hem query’de key varsa çatışma
   const hasHeader = !!(req.headers.authorization || req.headers.Authorization);
   const hasQuery = !!req.query.key;
   if (hasHeader && hasQuery) {
@@ -128,7 +130,6 @@ async function validateApiKey(req, res, next) {
     });
   }
 
-  // Hangi kaynaktan geldiğini belirle
   keySource = hasHeader ? 'header' : 'query';
 
   try {
@@ -136,15 +137,11 @@ async function validateApiKey(req, res, next) {
       'SELECT id, api_key, description FROM api_keys WHERE api_key = ? AND is_active = TRUE LIMIT 1',
       [key]
     );
-
     if (rows.length > 0) {
       req.isKeyValid = true;
       req.apiKeyInfo = rows[0];
       req.usedKeySource = keySource;
-      
-      // Query’den geldiyse temizle (log ve URL temizliği için)
       if (hasQuery) delete req.query.key;
-
       return next();
     } else {
       return res.status(401).json({
@@ -164,19 +161,36 @@ async function validateApiKey(req, res, next) {
   }
 }
 
-// Rate Limiter - Applied only to requests without a valid key
+// === DEĞİŞİKLİK: rate-limit-redis yerine temiz, güncel Redis store yazıldı ===
 const apiLimiter = rateLimit({
-  windowMs: 24 * 60 * 60 * 1000, // 24 hours
+  windowMs: 24 * 60 * 60 * 1000, // 24 saat
   max: 500,
-  standardHeaders: 'draft-7',
+  standardHeaders: true,
   legacyHeaders: false,
-  validate: { ip: false },
+  skip: (req) => req.isKeyValid === true,
   keyGenerator: (req) => {
-    if (req.isKeyValid) {
-      return `${getCleanIp(req)}:apikey:${req.query.key}`;
-    }
-    return getCleanIp(req);
+    return req.isKeyValid 
+      ? `unlimited:${req.apiKeyInfo?.id || 'anon'}`
+      : `ratelimit:${getCleanIp(req)}`;
   },
+
+  // KENDİ REDIS STORE'UMUZ (2025 uyumlu, sorunsuz çalışır)
+  store: redisClient ? {
+    async increment(key) {
+      const count = await redisClient.incr(key);
+      if (count === 1) {
+        await redisClient.expire(key, 24 * 60 * 60); // 24 saat TTL
+      }
+      return { totalHits: count };
+    },
+    async decrement(key) {
+      await redisClient.decr(key);
+    },
+    async resetKey(key) {
+      await redisClient.del(key);
+    }
+  } : undefined,
+
   handler: (req, res) => {
     const resetTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const trTime = resetTime.toLocaleString('tr-TR', {
@@ -198,54 +212,30 @@ const apiLimiter = rateLimit({
       getKey: 'Contact: antonwise1980@gmail.com',
       retryAfter: 86400
     });
-  },
-  skip: (req) => req.isKeyValid === true
+  }
 });
+// =============================================
 
-// Handle CORS preflight for /api/synonyms
 app.options('/api/synonyms', (req, res) => res.sendStatus(200));
-
-// Parse JSON and URL-encoded bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Apply middleware only to /api/synonyms
-app.use('/api/synonyms', validateApiKey); // 1. Validate API key
-app.use('/api/synonyms', apiLimiter);     // 2. Apply rate limit if no valid key
-
-// Serve static files from 'public' directory
+app.use('/api/synonyms', validateApiKey);
+app.use('/api/synonyms', apiLimiter);
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve index.html at root
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-/**
- * NEW ENDPOINT: /api/synonyms
- * - If no search → returns random word
- * - If ?search=... → 
- *     1. First checks 'word' column
- *     2. If not found → searches in JSON 'synonyms' array
- *     3. Returns first match
- * - NEW: If found in synonyms → 
- *     - word = searched word
- *     - original word moved to synonyms array (at the beginning)
- */
 app.get('/api/synonyms', async (req, res) => {
   const search = req.query.search?.trim();
   const hasKey = !!req.query.key;
   let connection;
-
   try {
     connection = await pool.getConnection();
     let rows = [];
-
     if (!search) {
-      // === RANDOM WORD (SAFE) ===
       const [countResult] = await connection.query('SELECT COUNT(*) as total FROM data_json_tbl');
       const total = countResult[0].total;
-
       if (total === 0) {
         return res.status(404).json({
           success: false,
@@ -257,30 +247,22 @@ app.get('/api/synonyms', async (req, res) => {
           }
         });
       }
-
       const randomOffset = Math.floor(Math.random() * total);
       [rows] = await connection.query('SELECT * FROM data_json_tbl LIMIT 1 OFFSET ?', [randomOffset]);
     } else {
-      // === SEARCH LOGIC: 1. word → 2. synonyms ===
       const lowerSearch = search.toLowerCase();
-
-      // Step 1: Search in 'word' column
       [rows] = await connection.query(
         'SELECT * FROM data_json_tbl WHERE LOWER(TRIM(word)) = ? LIMIT 1',
         [lowerSearch]
       );
-
-      // Step 2: If not found in 'word', search in 'synonyms' JSON array
       if (!rows || rows.length === 0) {
         [rows] = await connection.query(`
-          SELECT * FROM data_json_tbl 
+          SELECT * FROM data_json_tbl
           WHERE JSON_CONTAINS(LOWER(synonyms), ?)
           LIMIT 1
         `, [JSON.stringify(lowerSearch)]);
       }
     }
-
-    // === NO RESULT FOUND ===
     if (!rows || rows.length === 0) {
       return res.status(404).json({
         success: false,
@@ -294,11 +276,8 @@ app.get('/api/synonyms', async (req, res) => {
         }
       });
     }
-
     const result = rows[0];
     const lowerSearch = search?.toLowerCase();
-
-    // === NORMALIZE DATA (SAFE) ===
     const originalWord = (result.word || '').toString().trim().toLowerCase();
     result.synonyms = Array.isArray(result.synonyms)
       ? result.synonyms.map(s => (s || '').toString().trim().toLowerCase())
@@ -306,38 +285,27 @@ app.get('/api/synonyms', async (req, res) => {
     result.antonyms = Array.isArray(result.antonyms)
       ? result.antonyms.map(a => (a || '').toString().trim().toLowerCase())
       : [];
-
-    // === NEW: SWAP LOGIC IF FOUND IN SYNONYMS ===
     let source = 'word';
     if (lowerSearch && lowerSearch !== originalWord) {
-      // Found in synonyms → swap!
       if (result.synonyms.includes(lowerSearch)) {
-        // Set word = searched term
         result.word = lowerSearch;
-        // Remove searched term from synonyms
         result.synonyms = result.synonyms.filter(s => s !== lowerSearch);
-        // Add original word to synonyms (at the beginning)
         if (!result.synonyms.includes(originalWord)) {
           result.synonyms.unshift(originalWord);
         }
         source = 'synonyms';
       } else {
-        // If somehow not in synonyms but not word → fallback
         result.word = originalWord;
         source = 'word';
       }
     } else {
-      // Found in word → no swap
       result.word = originalWord;
       source = 'word';
     }
-
-    // === LOG REQUEST ===
     const clientIp = getCleanIp(req);
     const logTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
     console.log(`[${logTime}] Search: "${search || 'random'}" | Found in: ${source} | word: "${result.word}" | IP: ${clientIp} | Key: ${hasKey ? 'Yes' : 'No'}`);
 
-    // === SUCCESS RESPONSE ===
     res.status(200).json({
       success: true,
       data: result,
@@ -384,7 +352,6 @@ app.get(['/api', '/api/'], (req, res) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   const startTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
   console.log(`Server listening on http://localhost:${PORT}`);
@@ -393,4 +360,5 @@ app.listen(PORT, () => {
   console.log(`Unlimited access with API Key is active.`);
   console.log(`ACTIVE ENDPOINT: http://localhost:${PORT}/api/synonyms`);
   console.log(`FIXED: If search term is in synonyms → word = search, original word → synonyms[0]`);
+  console.log(`Redis Status: ${redisClient ? 'Connected (persistent rate limiting)' : 'Not connected (in-memory fallback)'}`);
 });
