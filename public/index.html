@@ -1,212 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>IELTS Synonyms API | Free & Unlimited Synonym Service</title>
-    
-    <!-- Bootstrap 5.3 + Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { 
-            --bs-primary: #0ea5e9; 
-            --bs-primary-dark: #0284c7;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            color: #0c4a6e;
-            min-height: 100vh;
-        }
-        .text-primary { color: #0369a1 !important; }
-        .bg-primary { background-color: #0ea5e9 !important; }
-        .btn-primary { background-color: #0ea5e9; border: none; }
-        .btn-primary:hover { background-color: #0284c7; }
-        .badge-custom { background: #0ea5e9; font-weight: 600; }
-        .highlight-box { background: #e0f2fe; border-left: 5px solid #0ea5e9; color: #0369a1; }
-        .warning-box { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
-        pre.code { background: #0c4a6e; color: #e0f2fe; padding: 1.5rem; border-radius: 12px; font-size: 0.95rem; }
-        .tag { background: #0369a1; color: white; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
-        .card { border: none; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12); transition: all 0.3s ease; }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2); }
-        .btn-test {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1050;
-            background: #0ea5e9;
-            border: none;
-            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
-            font-weight: 600;
-            border-radius: 50px;
-            padding: 14px 28px;
-        }
-        .btn-test:hover { background: #0284c7; transform: translateY(-2px); }
-        a { color: #0369a1; }
-        a:hover { color: #0284c7; }
-        .offcanvas-header { background: #0ea5e9; color: white; }
-        .offcanvas-body a { color: #0c4a6e; font-weight: 500; }
-        .offcanvas-body a:hover { color: #0ea5e9; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IELTS Synonyms API | Free & Unlimited Synonym Service</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/style.css">
 </head>
 <body class="pb-5">
 
-    <!-- Navbar with Hamburger Menu -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <!-- Logo + Hamburger Button -->
-            <div class="d-flex align-items-center justify-content-between w-100">
-                <a class="navbar-brand fw-bold text-primary" href="#">
-                    <i class="bi bi-book-half me-2"></i>IELTS Synonyms API
-                </a>
-
-                <!-- Hamburger Button (visible only on mobile) -->
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Offcanvas Sidebar Menu -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasMenuLabel">
-                <i class="bi bi-book-half me-2"></i>IELTS Synonyms API
-            </h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body pt-4">
-            <h6 class="text-primary fw-bold mb-3">Quick Navigation</h6>
-            <ul class="list-unstyled">
-                <li class="mb-3"><a href="#what-is-it" class="text-decoration-none"><i class="bi bi-journal-text me-2"></i>What is it?</a></li>
-                <li class="mb-3"><a href="#how-it-works" class="text-decoration-none"><i class="bi bi-gear-wide-connected me-2"></i>How does it work?</a></li>
-                <li class="mb-3"><a href="#how-to-use" class="text-decoration-none"><i class="bi bi-rocket-takeoff me-2"></i>How to use?</a></li>
-                <li class="mb-3"><a href="#example-response" class="text-decoration-none"><i class="bi bi-file-earmark-code me-2"></i>Example Response</a></li>
-                <li class="mb-3"><a href="#features" class="text-decoration-none"><i class="bi bi-stars me-2"></i>Features</a></li>
-                <li class="mb-3"><a href="#get-api-key" class="text-decoration-none"><i class="bi bi-key me-2"></i>Get API Key</a></li>
-            </ul>
-            <hr class="my-4">
-            <a href="mailto:antonwise1980@gmail.com" class="btn btn-outline-primary w-100 mb-3">
-                <i class="bi bi-envelope me-2"></i>Contact Developer
-            </a>
-            <a href="https://github.com/antonwise1980" target="_blank" class="btn btn-outline-dark w-100">
-                <i class="bi bi-github me-2"></i>GitHub Profile
-            </a>
-        </div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <a class="navbar-brand fw-bold text-primary" href="#"><i class="bi bi-book-half me-2"></i>IELTS Synonyms API</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </div>
+  </div>
+</nav>
 
-    <div class="container py-5">
-        
-        <!-- Header -->
-        <div class="text-center py-5 px-4 rounded-4 bg-white shadow-lg mb-5">
-            <h1 class="display-4 fw-bold text-primary">IELTS Synonyms API</h1>
-            <p class="lead mb-4 text-muted">A fast, powerful, and free REST API for English synonyms</p>
-            <div class="d-inline-flex gap-3 flex-wrap justify-content-center">
-                <span class="badge bg-primary badge-custom fs-6 px-4 py-2">Free 500 Requests/Day</span>
-                <span class="badge bg-success badge-custom fs-6 px-4 py-2">Unlimited with API Key</span>
-                <span class="badge bg-info badge-custom fs-6 px-4 py-2">JSON Support</span>
-            </div>
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title"><i class="bi bi-book-half me-2"></i>IELTS Synonyms API</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body pt-4">
+    <h6 class="text-primary fw-bold mb-3">Quick Navigation</h6>
+    <ul class="list-unstyled">
+      <li class="mb-3"><a href="#what-is-it" class="text-decoration-none"><i class="bi bi-journal-text me-2"></i>What is it?</a></li>
+      <li class="mb-3"><a href="#how-it-works" class="text-decoration-none"><i class="bi bi-gear-wide-connected me-2"></i>How does it work?</a></li>
+      <li class="mb-3"><a href="#how-to-use" class="text-decoration-none"><i class="bi bi-rocket-takeoff me-2"></i>How to use?</a></li>
+      <li class="mb-3"><a href="#live-test" class="text-decoration-none"><i class="bi bi-play-circle me-2"></i>Live Test</a></li>
+      <li class="mb-3"><a href="#example-response" class="text-decoration-none"><i class="bi bi-file-earmark-code me-2"></i>Example Response</a></li>
+      <li class="mb-3"><a href="#features" class="text-decoration-none"><i class="bi bi-stars me-2"></i>Features</a></li>
+      <li class="mb-3"><a href="#get-api-key" class="text-decoration-none"><i class="bi bi-key me-2"></i>Get API Key</a></li>
+    </ul>
+    <hr class="my-4">
+    <a href="mailto:antonwise1980@gmail.com" class="btn btn-outline-primary w-100 mb-3"><i class="bi bi-envelope me-2"></i>Contact Developer</a>
+    <a href="https://github.com/antonwise1980" target="_blank" class="btn btn-outline-dark w-100"><i class="bi bi-github me-2"></i>GitHub Profile</a>
+  </div>
+</div>
+
+<div class="container py-5">
+
+  <!-- Header -->
+  <div class="text-center py-5 px-4 rounded-4 bg-white shadow-lg mb-5">
+    <h1 class="display-4 fw-bold text-primary">IELTS Synonyms API</h1>
+    <p class="lead mb-4 text-muted">A fast, powerful, and free REST API for English synonyms</p>
+    <div class="d-inline-flex gap-3 flex-wrap justify-content-center">
+      <span class="badge bg-primary badge-custom fs-6 px-4 py-2">Free 500 Requests/Day</span>
+      <span class="badge bg-success badge-custom fs-6 px-4 py-2">Unlimited with API Key</span>
+      <span class="badge bg-info badge-custom fs-6 px-4 py-2">JSON Support</span>
+      <span class="badge bg-danger badge-custom fs-6 px-4 py-2">HTTPS Only</span>
+    </div>
+  </div>
+
+  <!-- What is it? -->
+  <div id="what-is-it" class="row mb-5">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">What is it?</h2>
+          <p class="lead"><strong>IELTS Synonyms API</strong> is a REST API that returns synonyms and antonyms for English words.</p>
+          <ul class="list-group list-group-flush mt-4">
+            <li class="list-group-item py-3">Optimized for IELTS, TOEFL, academic writing, etc.</li>
+            <li class="list-group-item py-3">Data stored in the <code class="bg-light px-2 py-1 rounded">data_json_tbl</code> table.</li>
+            <li class="list-group-item py-3"><strong>Searches both the main word and the synonyms array</strong>.</li>
+            <li class="list-group-item py-3">If the search term is in synonyms → <strong>it becomes the main word</strong>, original word moves to the start of synonyms.</li>
+          </ul>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- What is it? -->
-        <div id="what-is-it" class="row mb-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">What is it?</h2>
-                        <p class="lead"><strong>IELTS Synonyms API</strong> is a REST API that returns synonyms and antonyms for English words.</p>
-                        <ul class="list-group list-group-flush mt-4">
-                            <li class="list-group-item py-3">Optimized for IELTS, TOEFL, academic writing, etc.</li>
-                            <li class="list-group-item py-3">Data stored in the <code class="bg-light px-2 py-1 rounded">data_json_tbl</code> table.</li>
-                            <li class="list-group-item py-3"><strong>Searches both the main word and the synonyms array</strong>.</li>
-                            <li class="list-group-item py-3">If the search term is in synonyms → <strong>it becomes the main word</strong>, original word moves to the start of synonyms.</li>
-                        </ul>
-                    </div>
+  <!-- How does it work? -->
+  <div id="how-it-works" class="row mb-5">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">How does it work?</h2>
+          <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+            <div class="col"><div class="card h-100 border-0 bg-light"><div class="card-body"><h5 class="card-title text-primary">1. Search</h5><p class="card-text"><code>?search=eccentric</code> → Look for "eccentric" in word or synonyms.</p></div></div></div>
+            <div class="col"><div class="card h-100 border-0 bg-light"><div class="card-body"><h5 class="card-title text-primary">2. No parameter?</h5><p class="card-text">Returns a random word.</p></div></div></div>
+            <div class="col"><div class="card h-100 border-0 bg-light"><div class="card-body"><h5 class="card-title text-primary">3. Found in synonyms?</h5><p class="card-text">Searched term → <code>word</code>, original → <code>synonyms[0]</code></p></div></div></div>
+          </div>
+          <div class="highlight-box p-4 rounded">
+            <strong>Example:</strong> <code>?search=eccentric</code> → <code>word: "eccentric"</code>, <code>synonyms: ["peculiar", ...]</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to use? -->
+  <div id="how-to-use" class="row mb-5">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">How to use?</h2>
+          <p class="mb-4"><strong>Endpoint:</strong> <code class="bg-dark text-light px-3 py-2 rounded">GET /api/synonyms</code></p>
+          <div class="mb-4"><h5 class="text-primary">1. Random Word</h5><pre class="code">GET https://synon-6f0dbe944806.herokuapp.com/api/synonyms</pre></div>
+          <div class="mb-4"><h5 class="text-primary">2. Search Word</h5><pre class="code">GET https://synon-6f0dbe944806.herokuapp.com/api/synonyms?search=happy</pre></div>
+          <div class="mb-4"><h5 class="text-primary">3. With API Key (Unlimited)</h5><pre class="code">GET https://synon-6f0dbe944806.herokuapp.com/api/synonyms?search=fast&key=ABC123XYZ</pre></div>
+
+          <div class="mt-5 p-4 rounded border border-primary bg-light">
+            <h4 class="text-primary mb-3">New: Professional Authentication (Recommended)</h4>
+            <p class="mb-3">We now fully support the industry-standard <strong>Authorization: Bearer</strong> header — more secure, cleaner URLs.</p>
+            <div class="row g-4">
+              <div class="col-lg-6">
+                <h6 class="text-success">Recommended (Secure & Clean)</h6>
+                <pre class="code mb-0">GET /api/synonyms?search=happy
+Authorization: Bearer ABC123XYZ</pre>
+              </div>
+              <div class="col-lg-6">
+                <h6 class="text-warning">Legacy (Still works for now)</h6>
+                <pre class="code mb-0">GET https://synon-6f0dbe944806.herokuapp.com/api/synonyms?search=happy&key=ABC123XYZ</pre>
+              </div>
+            </div>
+            <div class="alert alert-info mt-3 small">
+              <strong>Why Bearer Token?</strong><br>
+              • Key never appears in URLs, logs, or browser history<br>
+              • Standard used by OpenAI, Stripe, GitHub, Google, etc.<br>
+              <strong>Query parameter (?key=…) will be removed in v2</strong>
+            </div>
+          </div>
+
+          <div class="warning-box p-4 rounded mt-4">
+            <strong>Rate Limit:</strong> Without API key → <strong>500 requests / 24 hours</strong>. Wait 24h if exceeded.<br>
+            <strong>Solution:</strong> <a href="mailto:antonwise1980@gmail.com" class="text-primary fw-bold">antonwise1980@gmail.com</a> → Get API key → <strong>unlimited access</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE TEST (moved above Example Response) -->
+  <div id="live-test" class="row justify-content-center mb-5">
+    <div class="col-12">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h3 class="text-primary text-center mb-4"><i class="bi bi-play-circle me-2"></i>Live Test</h3>
+          
+          <div class="row g-3">
+            <div class="col-md-8">
+              <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Enter a word... (e.g. happy, eccentric)" autofocus>
+            </div>
+            <div class="col-md-4">
+              <button id="searchBtn" class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-arrow-right-circle"></i> Search
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-key"></i></span>
+              <input type="password" id="apiKeyInput" class="form-control" placeholder="API Key (optional – unlimited access)">
+              <button class="btn btn-outline-secondary" type="button" id="toggleKey"><i class="bi bi-eye-slash" id="eyeIcon"></i></button>
+            </div>
+            <small class="text-muted">If you have an API key, it will be sent as Bearer Token automatically.</small>
+          </div>
+
+          <div id="resultArea" class="mt-4" style="display:none;">
+            <hr>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="text-success mb-0"><i class="bi bi-check2-circle"></i> Result</h5>
+              <small class="text-muted" id="timestamp"></small>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="text-center p-4 bg-light rounded shadow-sm">
+                  <h2 id="resultWord" class="text-primary fw-bold" style="font-size: 2.5rem;">—</h2>
+                  <small class="text-muted">Main Word</small>
                 </div>
-            </div>
-        </div>
+              </div>
+              <div class="col-md-8">
+                <div class="bg-white rounded shadow-sm p-4" style="max-height: 320px; overflow-y: auto;">
+                  <h6 class="text-primary"><i class="bi bi-arrow-right-square"></i> Synonyms</h6>
+                  <div id="synonymsList" class="d-flex flex-wrap gap-2 mb-3"></div>
 
-        <!-- How does it work? -->
-        <div id="how-it-works" class="row mb-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">How does it work?</h2>
-                        <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-                            <div class="col">
-                                <div class="card h-100 border-0 bg-light">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-primary">1. Search</h5>
-                                        <p class="card-text"><code>?search=eccentric</code> → Look for "eccentric" in word column or synonyms column.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100 border-0 bg-light">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-primary">2. No parameter?</h5>
-                                        <p class="card-text">Returns a random word.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100 border-0 bg-light">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-primary">3. Found in synonyms?</h5>
-                                        <p class="card-text">Searched term → <code>word</code>, original → <code>synonyms[0]</code></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="highlight-box p-4 rounded">
-                            <strong>Example:</strong> <code>?search=eccentric</code> → <code>word: "eccentric"</code>, <code>synonyms: ["peculiar", ...]</code>
-                        </div>
-                    </div>
+                  <h6 class="text-danger mt-3"><i class="bi bi-x-square"></i> Antonyms</h6>
+                  <div id="antonymsList" class="d-flex flex-wrap gap-2"></div>
                 </div>
+              </div>
             </div>
-        </div>
 
-        <!-- How to use? -->
-        <div id="how-to-use" class="row mb-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">How to use?</h2>
-                        <p class="mb-4"><strong>Endpoint:</strong> <code class="bg-dark text-light px-3 py-2 rounded">GET /api/synonyms</code></p>
-
-                        <div class="mb-4">
-                            <h5 class="text-primary">1. Random Word</h5>
-                            <pre class="code">GET https://synon-6f0dbe944806.herokuapp.com/api/synonyms</pre>
-                        </div>
-                        <div class="mb-4">
-                            <h5 class="text-primary">2. Search Word</h5>
-                            <pre class="code">GET https://synon-6f0dbe944806.herokuapp.com/api/synonyms?search=happy</pre>
-                        </div>
-                        <div class="mb-4">
-                            <h5 class="text-primary">3. With API Key (Unlimited)</h5>
-                            <pre class="code">GET https://synon-6f0dbe944806.herokuapp.com/api/synonyms?search=fast&key=ABC123XYZ</pre>
-                        </div>
-
-                        <div class="warning-box p-4 rounded mt-4">
-                            <strong>Rate Limit:</strong> Without API key → <strong>500 requests / 24 hours</strong>. Wait 24h if exceeded.<br>
-                            <strong>Solution:</strong> <a href="mailto:antonwise1980@gmail.com" class="text-primary fw-bold">antonwise1980@gmail.com</a> → Get API key → <strong>unlimited access</strong>.
-                        </div>
-                    </div>
-                </div>
+            <div class="mt-4 text-center">
+              <button id="newSearch" class="btn btn-outline-primary"><i class="bi bi-arrow-clockwise"></i> New Search</button>
             </div>
-        </div>
+          </div>
 
-        <!-- Example Response -->
-        <div id="example-response" class="row mb-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">Example Response (JSON)</h2>
-                        <pre class="code">{
+          <div id="loading" class="text-center py-5" style="display:none;">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div id="errorAlert" class="alert alert-danger mt-4" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example Response (JSON) -->
+  <div id="example-response" class="row mb-5">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">Example Response (JSON)</h2>
+          <pre class="code">{
   "success": true,
   "data": {
     "word": "happy",
@@ -221,73 +228,121 @@
     "api_key_used": false
   }
 }</pre>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <!-- Features -->
-        <div id="features" class="row mb-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">Features</h2>
-                        <div class="row row-cols-1 row-cols-md-2 g-4">
-                            <div class="col"><span class="tag">Fast</span> MySQL Connection Pool for high performance</div>
-                            <div class="col"><span class="tag">Secure</span> Rate limiting + IP cleaning + proxy support</div>
-                            <div class="col"><span class="tag">Flexible</span> Unlimited access with API key</div>
-                            <div class="col"><span class="tag">Smart</span> Auto-swap if found in synonyms</div>
-                            <div class="col"><span class="tag">Turkey Time</span> All timestamps in Istanbul timezone</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact -->
-        <div id="get-api-key" class="row mb-5">
-            <div class="col-12">
-                <div class="card text-center">
-                    <div class="card-body py-5">
-                        <h2 class="card-title h3 text-primary mb-4">Get API Key</h2>
-                        <p class="lead mb-4">Contact for unlimited access:</p>
-                        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                            <a href="mailto:antonwise1980@gmail.com" class="btn btn-primary btn-lg px-5">antonwise1980@gmail.com</a>
-                            <a href="https://github.com/antonwise1980" target="_blank" class="btn btn-outline-primary btn-lg px-5">GitHub Profile</a>
-                        </div>
-                        <p class="mt-4 text-muted">After getting the key: add <code class="bg-dark text-light px-3 py-1 rounded">?key=XYZ123</code> → <strong>rate limit removed</strong>.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="text-center py-5 text-muted">
-            <p class="mb-2">© 2025 IELTS Synonyms API | Developer: <strong>Anton Wise</strong></p>
-            <p class="small">Server: <code>https://synon-6f0dbe944806.herokuapp.com</code> | Active Endpoint: <code>/api/synonyms</code></p>
-        </footer>
+      </div>
     </div>
+  </div>
 
-    <!-- Test Button -->
-    <button onclick="testApi()" class="btn btn-primary btn-lg btn-test text-white shadow-lg">
-        Test the API
-    </button>
+  <!-- Features -->
+  <div id="features" class="row mb-5">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title h3 text-primary border-bottom pb-3 mb-4">Features</h2>
+          <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col"><span class="tag">Fast</span> MySQL Connection Pool for high performance</div>
+            <div class="col"><span class="tag">Secure</span> Rate limiting + IP cleaning + proxy support</div>
+            <div class="col"><span class="tag">Flexible</span> Unlimited access with API key</div>
+            <div class="col"><span class="tag">Smart</span> Auto-swap if found in synonyms</div>
+            <div class="col"><span class="tag">Turkey Time</span> All timestamps in Istanbul timezone</div>
+            <div class="col"><span class="tag">HTTPS Only</span> All traffic forced to secure HTTPS</div>
+            <div class="col"><span class="tag">Bearer Token</span> Industry-standard secure authentication</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function testApi() {
-            const search = prompt("Enter a word to search (leave empty for random):");
-            const key = prompt("Enter your API key if you have one (leave empty if not):") || "";
-            const url = `https://synon-6f0dbe944806.herokuapp.com/api/synonyms${search ? `?search=${encodeURIComponent(search.trim())}` : ''}${key ? `${search ? '&' : '?'}key=${key}` : ''}`;
-            fetch(url)
-                .then(r => r.json())
-                .then(data => {
-                    alert(`Success!\nWord: ${data.data.word}\nSynonyms: ${data.data.synonyms.join(', ')}`);
-                    console.log("Full Response:", data);
-                })
-                .catch(err => alert("Error: " + err.message));
-        }
-    </script>
+  <!-- Get API Key -->
+  <div id="get-api-key" class="row mb-5">
+    <div class="col-12">
+      <div class="card text-center">
+        <div class="card-body py-5">
+          <h2 class="card-title h3 text-primary mb-4">Get API Key</h2>
+          <p class="lead mb-4">Contact for unlimited access:</p>
+          <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+            <a href="mailto:antonwise1980@gmail.com" class="btn btn-primary btn-lg px-5">antonwise1980@gmail.com</a>
+            <a href="https://github.com/antonwise1980" target="_blank" class="btn btn-outline-primary btn-lg px-5">GitHub Profile</a>
+          </div>
+          <p class="mt-4 text-muted">After getting the key: use <code class="bg-dark text-light px-3 py-1 rounded">Authorization: Bearer XYZ123</code> → <strong>no rate limit</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-5 text-muted">
+    <p class="mb-2">© 2025 IELTS Synonyms API | Developer: <strong>Anton Wise</strong></p>
+    <p class="small">Server: <code>https://synon-6f0dbe944806.herokuapp.com</code> | Active Endpoint: <code>/api/synonyms</code></p>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Live test script (fully in English)
+document.getElementById('searchBtn').addEventListener('click', doSearch);
+document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') doSearch(); });
+document.getElementById('newSearch') && document.getElementById('newSearch').addEventListener('click', () => {
+  document.getElementById('resultArea').style.display = 'none';
+  document.getElementById('searchInput').focus();
+});
+document.getElementById('toggleKey').addEventListener('click', () => {
+  const input = document.getElementById('apiKeyInput');
+  const icon = document.getElementById('eyeIcon');
+  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('bi-eye-slash','bi-eye'); }
+  else { input.type = 'password'; icon.classList.replace('bi-eye','bi-eye-slash'); }
+});
+
+async function doSearch() {
+  const word = document.getElementById('searchInput').value.trim();
+  const key = document.getElementById('apiKeyInput').value.trim();
+
+  if (!word) return document.getElementById('searchInput').focus();
+
+  document.getElementById('resultArea').style.display = 'none';
+  document.getElementById('errorAlert').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+
+  // AUTOMATIC ENVIRONMENT DETECTION
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  let url = isLocal 
+    ? 'http://localhost:3000/api/synonyms'
+    : 'https://synon-6f0dbe944806.herokuapp.com/api/synonyms';
+
+  if (word) url += `?search=${encodeURIComponent(word)}`;
+
+  const headers = key ? { 'Authorization': `Bearer ${key}` } : {};
+
+  try {
+    const res = await fetch(url, { headers });
+    const data = await res.json();
+
+    document.getElementById('loading').style.display = 'none';
+
+    if (!data.success) throw new Error(data.error || data.message || 'Unknown error');
+
+    document.getElementById('resultWord').textContent = data.data.word;
+    document.getElementById('timestamp').textContent = data.meta.timestamp || new Date().toLocaleString();
+
+    const synList = document.getElementById('synonymsList'); synList.innerHTML = '';
+    data.data.synonyms.forEach(s => { synList.innerHTML += `<span class="badge bg-primary fs-6 px-3 py-2">${s}</span>`; });
+
+    const antList = document.getElementById('antonymsList'); antList.innerHTML = '';
+    data.data.antonyms.forEach(a => { antList.innerHTML += `<span class="badge bg-danger fs-6 px-3 py-2">${a}</span>`; });
+
+    document.getElementById('resultArea').style.display = 'block';
+    document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+
+  } catch (err) {
+    document.getElementById('loading').style.display = 'none';
+    const alert = document.getElementById('errorAlert');
+    alert.textContent = err.message.includes('limit') 
+      ? 'Daily limit exceeded. Get an API key for unlimited access.' 
+      : `Error: ${err.message}`;
+    alert.style.display = 'block';
+  }
+}
+</script>
+
 </body>
 </html>

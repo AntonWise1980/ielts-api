@@ -1,131 +1,19 @@
 
-    :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-700: #374151;
-      --gray-900: #111827;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-      color: var(--gray-900);
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-    header {
-      text-align: center;
-      padding: 3rem 0;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      margin-bottom: 2rem;
-    }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-    .badge {
-      display: inline-block;
-      padding: 0.35rem 0.75rem;
-      background: var(--primary);
-      color: white;
-      border-radius: 999px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin: 0.5rem 0.25rem;
-    }
-    .section {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin-bottom: 1.5rem;
-    }
-    h2 {
-      font-size: 1.5rem;
-      color: var(--primary-dark);
-      margin-bottom: 1rem;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 0.5rem;
-    }
-    .highlight {
-      background: #dbeafe;
-      padding: 1rem;
-      border-radius: 8px;
-      border-left: 4px solid var(--primary);
-      margin: 1rem 0;
-      font-family: 'Courier New', monospace;
-    }
-    .code {
-      background: #1f2937;
-      color: #e5e7eb;
-      padding: 1rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      font-family: 'Courier New', monospace;
-      font-size: 0.95rem;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: var(--primary);
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-    .btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin: 1.5rem 0;
-    }
-    .card {
-      background: var(--gray-100);
-      padding: 1.5rem;
-      border-radius: 10px;
-      border: 1px solid var(--gray-200);
-    }
-    .card h3 {
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--gray-700);
-      font-size: 0.9rem;
-    }
-    .tag {
-      display: inline-block;
-      background: var(--success);
-      color: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
-    }
-    .warning-box {
-      background: #fffbeb;
-      border: 1px solid #f59e0b;
-      color: #92400e;
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 1rem 0;
-    }
-  
+:root { --bs-primary: #0ea5e9; --bs-primary-dark: #0284c7; }
+body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: #0c4a6e; min-height: 100vh; }
+.text-primary { color: #0369a1 !important; }
+.bg-primary { background-color: #0ea5e9 !important; }
+.btn-primary { background-color: #0ea5e9; border: none; }
+.btn-primary:hover { background-color: #0284c7; }
+.badge-custom { background: #0ea5e9; font-weight: 600; }
+.highlight-box { background: #e0f2fe; border-left: 5px solid #0ea5e9; color: #0369a1; }
+.warning-box { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
+pre.code { background: #0c4a6e; color: #e0f2fe; padding: 1.5rem; border-radius: 12px; font-size: 0.95rem; }
+.tag { background: #0369a1; color: white; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+.card { border: none; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12); transition: all 0.3s ease; }
+.card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2); }
+a { color: #0369a1; }
+a:hover { color: #0284c7; }
+.offcanvas-header { background: #0ea5e9; color: white; }
+.offcanvas-body a { color: #0c4a6e; font-weight: 500; }
+.offcanvas-body a:hover { color: #0ea5e9; }

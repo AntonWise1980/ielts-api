@@ -13,6 +13,16 @@ const rateLimit = require('express-rate-limit');
 // Initialize Express app
 const app = express();
 
+if (process.env.NODE_ENV === 'production' || process.env.FORCE_HTTPS) {
+  app.use((req, res, next) => {
+    // Heroku, Render, Fly.io gibi platformlarda bu header gelir
+    if (req.headers['x-forwarded-proto'] !== 'https' && req.headers['x-forwarded-proto'] !== undefined) {
+      return res.redirect(301, 'https://' + req.headers.host + req.url);
+    }
+    // Eğer header yoksa (localde çalışıyorsa) devam et
+    next();
+  });
+}
 // Trust the first proxy (required for correct IP detection behind reverse proxies)
 app.set('trust proxy', 1);
 
@@ -56,43 +66,91 @@ const getCleanIp = (req) => {
 };
 
 // API Key Validation Middleware (Handles single/multiple keys, rejects duplicates)
-async function validateApiKey(req, res, next) {
-  const keys = req.query.key; // Can be string or array
-
-  if (!keys) {
-    req.isKeyValid = false;
-    return next(); // Proceed to rate limiting
+// ====== YENİ: Authorization Header’dan Bearer Token okuma ======
+function extractApiKey(req) {
+  // 1. Authorization: Bearer ...
+  const authHeader = req.headers.authorization || req.headers.Authorization || '';
+  if (authHeader.startsWith('Bearer ') || authHeader.startsWith('bearer ')) {
+    return authHeader.split(' ')[1].trim();
   }
 
-  // Reject multiple keys (e.g. ?key=abc&key=xyz)
-  if (Array.isArray(keys)) {
+  // 2. Query parameter ?key=...
+  if (req.query.key) {
+    const keys = Array.isArray(req.query.key) ? req.query.key : [req.query.key];
+    
+    // Birden fazla key göndermişse hemen reddet
     if (keys.length > 1) {
+      throw new Error('MULTIPLE_QUERY_KEYS');
+    }
+    
+    return keys[0].trim();
+  }
+
+  return null;
+}
+
+// ====== GÜNCELLENMİŞ VE TAM GÜVENLİ validateApiKey Middleware’i ======
+async function validateApiKey(req, res, next) {
+  let key;
+  let keySource = 'none';
+
+  try {
+    key = extractApiKey(req);
+  } catch (err) {
+    if (err.message === 'MULTIPLE_QUERY_KEYS') {
       return res.status(400).json({
         success: false,
         error: 'Multiple keys not allowed',
-        message: 'Only one API key can be used.'
+        message: 'Only one API key can be provided in the query parameters.'
       });
     }
-    req.query.key = keys[0].trim(); // Use only the first key
-  } else {
-    req.query.key = keys.trim();
+    // Diğer beklenmeyen hatalar
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid API key format'
+    });
   }
+
+  if (!key) {
+    req.isKeyValid = false;
+    req.usedKeySource = 'none';
+    return next(); // Anahtar yok → rate limit
+  }
+
+  // Hem header hem query’de key varsa çatışma
+  const hasHeader = !!(req.headers.authorization || req.headers.Authorization);
+  const hasQuery = !!req.query.key;
+  if (hasHeader && hasQuery) {
+    return res.status(400).json({
+      success: false,
+      error: 'Conflicting API keys',
+      message: 'Do not send API key in both Authorization header and query parameter.'
+    });
+  }
+
+  // Hangi kaynaktan geldiğini belirle
+  keySource = hasHeader ? 'header' : 'query';
 
   try {
     const [rows] = await pool.query(
       'SELECT id, api_key, description FROM api_keys WHERE api_key = ? AND is_active = TRUE LIMIT 1',
-      [req.query.key]
+      [key]
     );
 
     if (rows.length > 0) {
       req.isKeyValid = true;
       req.apiKeyInfo = rows[0];
-      return next(); // Valid key → skip rate limit
+      req.usedKeySource = keySource;
+      
+      // Query’den geldiyse temizle (log ve URL temizliği için)
+      if (hasQuery) delete req.query.key;
+
+      return next();
     } else {
       return res.status(401).json({
         success: false,
-        error: 'Invalid API key',
-        message: 'Please use a valid API key.',
+        error: 'Invalid or inactive API key',
+        message: 'The provided API key is not valid or has been deactivated.',
         contact: 'antonwise1980@gmail.com'
       });
     }
@@ -101,7 +159,7 @@ async function validateApiKey(req, res, next) {
     return res.status(500).json({
       success: false,
       error: 'Server error',
-      message: 'API key could not be validated.'
+      message: 'API key could not be validated due to a server error.'
     });
   }
 }
