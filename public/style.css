@@ -1,19 +1,18 @@
-
 :root { --bs-primary: #0ea5e9; --bs-primary-dark: #0284c7; }
-body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: #0c4a6e; min-height: 100vh; }
-.text-primary { color: #0369a1 !important; }
-.bg-primary { background-color: #0ea5e9 !important; }
-.btn-primary { background-color: #0ea5e9; border: none; }
-.btn-primary:hover { background-color: #0284c7; }
-.badge-custom { background: #0ea5e9; font-weight: 600; }
-.highlight-box { background: #e0f2fe; border-left: 5px solid #0ea5e9; color: #0369a1; }
-.warning-box { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
-pre.code { background: #0c4a6e; color: #e0f2fe; padding: 1.5rem; border-radius: 12px; font-size: 0.95rem; }
-.tag { background: #0369a1; color: white; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
-.card { border: none; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12); transition: all 0.3s ease; }
-.card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2); }
-a { color: #0369a1; }
-a:hover { color: #0284c7; }
-.offcanvas-header { background: #0ea5e9; color: white; }
-.offcanvas-body a { color: #0c4a6e; font-weight: 500; }
-.offcanvas-body a:hover { color: #0ea5e9; }
+  body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: #0c4a6e; min-height: 100vh; }
+  .text-primary { color: #0369a1 !important; }
+  .bg-primary { background-color: #0ea5e9 !important; }
+  .btn-primary { background-color: #0ea5e9; border: none; }
+  .btn-primary:hover { background-color: #0284c7; }
+  .badge-custom { background: #0ea5e9; font-weight: 600; }
+  .highlight-box { background: #e0f2fe; border-left: 5px solid #0ea5e9; color: #0369a1; }
+  .warning-box { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
+  pre.code { background: #0c4a6e; color: #e0f2fe; padding: 1.5rem; border-radius: 12px; font-size: 0.95rem; }
+  .tag { background: #0369a1; color: white; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+  .card { border: none; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12); transition: all 0.3s ease; }
+  .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2); }
+  a { color: #0369a1; }
+  a:hover { color: #0284c7; }
+  .offcanvas-header { background: #0ea5e9; color: white; }
+  .offcanvas-body a { color: #0c4a6e; font-weight: 500; }
+  .offcanvas-body a:hover { color: #0ea5e9; }
