@@ -17,12 +17,12 @@
     background: var(--bs-primary-light); 
     color: #1f2937; /* Daha koyu metin */
     min-height: 100vh; 
-    padding-top: 80px; /* Sabit Navbar için eklenen dolgu */
+    /* Önceki padding-top satırı KALDIRILDI */
   }
 
-  /* Sabit Navbar'ın sayfanın üzerinde kalmasını sağlar */
+  /* Sabit Navbar'ın diğer bileşenlerin üzerinde kalmasını sağlar */
   .sticky-top {
-      z-index: 1020; 
+      z-index: 1030; 
   }
 
   /* Renk Sınıfları */
