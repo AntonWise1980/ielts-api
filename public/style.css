@@ -1,18 +1,108 @@
-:root { --bs-primary: #0ea5e9; --bs-primary-dark: #0284c7; }
-  body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: #0c4a6e; min-height: 100vh; }
-  .text-primary { color: #0369a1 !important; }
-  .bg-primary { background-color: #0ea5e9 !important; }
-  .btn-primary { background-color: #0ea5e9; border: none; }
-  .btn-primary:hover { background-color: #0284c7; }
-  .badge-custom { background: #0ea5e9; font-weight: 600; }
-  .highlight-box { background: #e0f2fe; border-left: 5px solid #0ea5e9; color: #0369a1; }
-  .warning-box { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
-  pre.code { background: #0c4a6e; color: #e0f2fe; padding: 1.5rem; border-radius: 12px; font-size: 0.95rem; }
-  .tag { background: #0369a1; color: white; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
-  .card { border: none; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12); transition: all 0.3s ease; }
-  .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2); }
-  a { color: #0369a1; }
-  a:hover { color: #0284c7; }
-  .offcanvas-header { background: #0ea5e9; color: white; }
-  .offcanvas-body a { color: #0c4a6e; font-weight: 500; }
-  .offcanvas-body a:hover { color: #0ea5e9; }
+:root { 
+    --bs-primary: #1e40af; /* Daha koyu, profesyonel mavi */
+    --bs-primary-light: #eff6ff; /* Açık mavi arka plan */
+    --bs-primary-dark: #1e3a8a; /* Vurgu mavisi */
+    --bs-success: #10b981;
+    --bs-success-light: #ecfdf5;
+    --bs-warning: #f59e0b;
+    --bs-warning-dark: #92400e;
+    --bs-info: #06b6d4;
+    --bs-info-dark: #0e7490;
+    --bs-danger: #ef4444;
+    --bs-danger-light: #fef2f2;
+    --bs-danger-dark: #b91c1c;
+}
+  body { 
+    font-family: 'Inter', sans-serif; 
+    background: var(--bs-primary-light); 
+    color: #1f2937; /* Daha koyu metin */
+    min-height: 100vh; 
+    padding-top: 80px; /* Sabit Navbar için eklenen dolgu */
+  }
+
+  /* Sabit Navbar'ın sayfanın üzerinde kalmasını sağlar */
+  .sticky-top {
+      z-index: 1020; 
+  }
+
+  /* Renk Sınıfları */
+  .text-primary { color: var(--bs-primary) !important; }
+  .bg-primary { background-color: var(--bs-primary) !important; }
+  .bg-light-blue { background-color: var(--bs-primary-light) !important; }
+  .text-muted-dark { color: #4b5563 !important; }
+  .border-primary-light { border-color: #dbeafe !important; }
+  .text-warning-dark { color: var(--bs-warning-dark) !important; }
+  .text-danger-dark { color: var(--bs-danger-dark) !important; }
+  .bg-success-light { background-color: var(--bs-success-light) !important; }
+  .bg-danger-light { background-color: var(--bs-danger-light) !important; }
+
+  /* Butonlar */
+  .btn-primary { 
+    background-color: var(--bs-primary); 
+    border: none;
+    transition: background-color 0.2s ease;
+  }
+  .btn-primary:hover { 
+    background-color: var(--bs-primary-dark); 
+  }
+  .btn-outline-primary {
+    color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+  .btn-outline-primary:hover {
+    background-color: var(--bs-primary);
+    color: white !important;
+  }
+
+  /* Kartlar */
+  .card { 
+    border: 1px solid #e5e7eb; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+    transition: all 0.3s ease; 
+  }
+  .card:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
+  }
+
+  /* Kod Blokları (API Vurgusu) */
+  pre.code { 
+    font-family: 'JetBrains Mono', monospace; /* Yeni Monospace Font */
+    background: #1f2937; /* Koyu arka plan */
+    color: #d1d5db; /* Açık renkli kod */
+    padding: 1.5rem; 
+    border-radius: 8px; 
+    font-size: 0.9rem; 
+    overflow-x: auto;
+  }
+  .code-inline {
+    font-family: 'JetBrains Mono', monospace;
+    background: #e5e7eb;
+    color: #1f2937;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .api-method-card .code {
+    border-left: 3px solid #6b7280;
+  }
+  .api-method-card.border-success .code { border-left-color: var(--bs-success); }
+  .api-method-card.border-warning .code { border-left-color: var(--bs-warning); }
+  .api-method-card.border-info .code { border-left-color: var(--bs-info); }
+  
+  /* Uyarı Kutuları */
+  .alert-danger-light { background-color: var(--bs-danger-light); border: 1px solid var(--bs-danger-dark); color: var(--bs-danger-dark); }
+
+  /* Bağlantılar */
+  a { color: var(--bs-primary); text-decoration: none; }
+  a:hover { color: var(--bs-primary-dark); text-decoration: underline; }
+
+  /* Offcanvas */
+  .offcanvas-header { background: var(--bs-primary); color: white; }
+  .offcanvas-body a { color: #1f2937; font-weight: 500; }
+  .offcanvas-body a:hover { color: var(--bs-primary); }
+
+  /* Live Test Badges */
+  #synonymsList .badge { background-color: var(--bs-success-light) !important; color: var(--bs-success) !important; border: 1px solid var(--bs-success); }
+  #antonymsList .badge { background-color: var(--bs-danger-light) !important; color: var(--bs-danger-dark) !important; border: 1px solid var(--bs-danger-dark); }
