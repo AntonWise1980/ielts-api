@@ -44,8 +44,10 @@ const pool = mysql.createPool({
 });
 // REDIS Değişikliği: Redis istemcisini oluştur (Upstash URL ile, hem local hem production için .env'den çek)
 const redis = new Redis(process.env.REDIS_URL, {
-  retryStrategy: times => Math.min(times * 50, 2000), // Bağlantı yeniden deneme stratejisi
-  maxRetriesPerRequest: 3 // Maksimum yeniden deneme
+  retryStrategy: times => Math.min(times * 50, 2000),
+  maxRetriesPerRequest: null,    
+  connectTimeout: 10000,
+  lazyConnect: true
 });
 // Extract clean IPv4 address from various sources, normalizing IPv6-mapped addresses
 const getCleanIp = (req) => {
