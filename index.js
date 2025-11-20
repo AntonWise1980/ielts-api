@@ -366,6 +366,12 @@ app.get(['/api', '/api/'], (req, res) => {
     contact: "antonwise1980@gmail.com"
   });
 });
+
+// REDIS BAĞLANTI TESTİ
+redis.ping()
+  .then(reply => console.log('✅ Redis bağlantısı BAŞARILI:', reply)) // PONG yazmalı
+  .catch(err => console.error('❌ Redis bağlantı HATASI:', err.message));
+
 // Start server
 app.listen(PORT, () => {
   const startTime = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
