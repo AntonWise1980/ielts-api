@@ -221,16 +221,23 @@ app.get('/api/synonyms', async (req, res) => {
     connection = await pool.getConnection();
     let rows = [];
     let fromCache = false;
-    // REDIS Değişikliği: Eğer search varsa, önce Redis cache'i kontrol et
+    
     if (search) {
-      const cacheKey = `synonym:${search.toLowerCase()}`;
-      const cached = await redis.get(cacheKey);
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        parsed.meta.from_cache = true; // Meta'ya cache bilgisi ekle (opsiyonel)
-        return res.status(200).json(parsed);
-      }
+  const cacheKey = `synonym:${search.toLowerCase()}`;
+  try {
+    const cached = await redis.get(cacheKey);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      parsed.meta.from_cache = true;
+      return res.status(200).json(parsed);
     }
+  } catch (redisErr) {
+    console.warn('Redis cache hatası, MySQL kullanılıyor:', redisErr.message);
+    // Redis çöktüyse bile devam et, MySQL’e düş
+  }
+}
+
+
     if (!search) {
       // === RANDOM WORD (SAFE) ===
       const [countResult] = await connection.query('SELECT COUNT(*) as total FROM data_json_tbl');
