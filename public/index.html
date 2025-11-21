@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>IELTS Synonyms API | Free & Unlimited Synonym Service</title>
+<title>IELTS Synonyms API | Free & Unlimited Synonym Service (v1)</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3 border-bottom shadow-sm">
   <div class="container">
     <div class="d-flex align-items-center justify-content-between w-100">
-      <a class="navbar-brand fw-bold text-dark" href="/"><i class="bi bi-book-half me-2 text-primary"></i>IELTS Synonyms API</a>
+      <a class="navbar-brand fw-bold text-dark" href="/"><i class="bi bi-book-half me-2 text-primary"></i>IELTS Synonyms API <span class="badge bg-secondary">v1</span></a>
       <div class="d-flex gap-3">
         <a href="https://github.com/antonwise1980" target="_blank" class="btn btn-outline-dark d-none d-lg-flex"><i class="bi bi-github me-2"></i>GitHub</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
@@ -27,7 +27,7 @@
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
   <div class="offcanvas-header bg-primary text-white">
-    <h5 class="offcanvas-title"><i class="bi bi-book-half me-2"></i>IELTS Synonyms API</h5>
+    <h5 class="offcanvas-title"><i class="bi bi-book-half me-2"></i>IELTS Synonyms API (v1)</h5>
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
   </div>
   <div class="offcanvas-body pt-4">
@@ -50,7 +50,7 @@
 <div class="container pt-0 pb-5 mt-5">
   
   <header class="text-center py-5 px-4 bg-light-blue rounded-4 mb-5 shadow-lg">
-    <h1 class="display-3 fw-bolder text-dark">IELTS Synonyms API</h1>
+    <h1 class="display-3 fw-bolder text-dark">IELTS Synonyms API <span class="badge bg-primary fs-4">v1</span></h1>
     <p class="lead mb-5 text-muted-dark">A fast, powerful, and free REST API for English synonyms, tailored for academic success.</p>
     
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -88,7 +88,7 @@
     <div class="card p-4 shadow-sm border-0">
       <div class="card-body">
         <h2 class="h3 fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-journal-text me-2 text-primary"></i>What is it?</h2>
-        <p class="lead"><strong>IELTS Synonyms API</strong> is a specialized REST API offering synonyms and antonyms for English words, **optimized for academic and high-stakes exams** like IELTS and TOEFL.</p>
+        <p class="lead"><strong>IELTS Synonyms API</strong> is a specialized REST API offering synonyms and antonyms for English words, **optimized for academic and high-stakes exams** like IELTS and TOEFL. <span class="text-danger fw-bold">(Current Version: v1)</span></p>
         <div class="row g-4 mt-4">
           <div class="col-md-6">
             <h5 class="text-primary fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Key Features</h5>
@@ -116,29 +116,29 @@
     <div class="card p-4 shadow-sm border-0">
       <div class="card-body">
         <h2 class="h3 fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-rocket-takeoff me-2 text-primary"></i>How to use?</h2>
-        <p class="mb-4 lead">The core endpoint is <code class="code-inline">GET /api/synonyms</code>. You can use it in three ways:</p>
+        <p class="mb-4 lead">The core endpoint is <code class="code-inline">GET /api/v1/synonyms</code>. You can use it in three ways:</p>
         
         <div class="row g-4">
           <div class="col-lg-12">
             <div class="api-method-card bg-light p-4 rounded-3 border-start border-5 border-success">
               <h5 class="text-success fw-bold">1. Random Word (GET)</h5>
-              <pre class="code mb-2">GET /api/synonyms</pre>
-              <p class="small text-muted mb-0">Returns a random word and its synonyms/antonyms.</p>
+              <pre class="code mb-2">GET /api/v1/synonyms</pre>
+              <p class="small text-muted mb-0">Returns a random word and its synonyms/antonyms. **(Version: Rota güncellendi)**</p>
             </div>
           </div>
           <div class="col-lg-12">
             <div class="api-method-card bg-light p-4 rounded-3 border-start border-5 border-warning">
               <h5 class="text-warning-dark fw-bold">2. Search Word (GET)</h5>
-              <pre class="code mb-2">GET /api/synonyms?search=happy</pre>
-              <p class="small text-muted mb-0">Search for a specific word.</p>
+              <pre class="code mb-2">GET /api/v1/synonyms?search=happy</pre>
+              <p class="small text-muted mb-0">Search for a specific word. **(Version: Rota güncellendi)**</p>
             </div>
           </div>
           <div class="col-lg-12">
             <div class="api-method-card bg-light p-4 rounded-3 border-start border-5 border-info">
               <h5 class="text-info-dark fw-bold">3. Authentication (Recommended)</h5>
-              <pre class="code mb-2">GET /api/synonyms?search=fast
+              <pre class="code mb-2">GET /api/v1/synonyms?search=fast
 Authorization: Bearer <span class="text-danger">YOUR_API_KEY</span></pre>
-              <p class="small text-muted mb-0">Use the professional <strong>Bearer Token</strong> for unlimited, secure access.</p>
+              <p class="small text-muted mb-0">Use the professional <strong>Bearer Token</strong> for unlimited, secure access. **(Version: Rota güncellendi)**</p>
             </div>
           </div>
         </div>
@@ -155,10 +155,10 @@ Authorization: Bearer <span class="text-danger">YOUR_API_KEY</span></pre>
   <section id="live-test" class="mb-5">
     <div class="card shadow-lg border-0 bg-white">
       <div class="card-body p-5">
-        <h3 class="text-dark text-center mb-5 fw-bold"><i class="bi bi-play-circle me-2 text-primary"></i>Live Test Console</h3>
+        <h3 class="text-dark text-center mb-5 fw-bold"><i class="bi bi-play-circle me-2 text-primary"></i>Live Test Console (v1)</h3>
         <div class="row g-3">
           <div class="col-md-8">
-            <input type="text" id="searchInput" class="form-control form-control-lg border-primary-light" placeholder="Enter a word... (e.g. happy, eccentric, pivotal)" autofocus>
+            <input type="text" id="searchInput" class="form-control form-control-lg border-primary-light" placeholder="Enter a word... (e.g. happy, eccentric, pivotal)">
           </div>
           <div class="col-md-4">
             <button id="searchBtn" class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
@@ -246,7 +246,7 @@ Authorization: Bearer <span class="text-danger">YOUR_API_KEY</span></pre>
     <div class="col-lg-6">
       <section id="features">
         <div class="card p-4 h-100 shadow-sm border-0">
-          <h2 class="h4 fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-stars me-2 text-primary"></i>Key Features</h2>
+          <h2 class="h4 fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-stars me-2 text-primary"></i>Key Features (v1)</h2>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>**IELTS/TOEFL** grade vocabulary.</li>
             <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Deep synonym search (**Reverse Lookup**).</li>
@@ -270,8 +270,8 @@ Authorization: Bearer <span class="text-danger">YOUR_API_KEY</span></pre>
   </div>
 
   <footer class="text-center py-5 text-muted border-top mt-5">
-    <p class="mb-2">© 2025 IELTS Synonyms API | Developer: <strong>Anton Wise</strong></p>
-    <p class="small">Server: <code>https://synon-6f0dbe944806.herokuapp.com</code> | Endpoint: <code>/api/synonyms</code></p>
+    <p class="mb-2">© 2025 IELTS Synonyms API (v1) | Developer: <strong>Anton Wise</strong></p>
+    <p class="small">Server: <code>https://synon-6f0dbe944806.herokuapp.com</code> | Endpoint: <code>/api/v1/synonyms</code></p>
   </footer>
 </div>
 
@@ -294,7 +294,7 @@ function scrollToSection(e, id) {
   }, 300);
 }
 
-// Live Test Script (senin orijinal kodun)
+// Live Test Script
 document.getElementById('searchBtn').addEventListener('click', doSearch);
 document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') doSearch(); });
 document.getElementById('newSearch')?.addEventListener('click', () => {
@@ -321,8 +321,11 @@ async function doSearch() {
   document.getElementById('resultArea').style.display = 'none';
   document.getElementById('errorAlert').style.display = 'none';
   document.getElementById('loading').style.display = 'block';
+  
+  // Version: Endpoint rotası v1 olarak güncellendi.
   const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-  let url = isLocal ? 'http://localhost:3000/api/synonyms' : 'https://synon-6f0dbe944806.herokuapp.com/api/synonyms';
+  let url = isLocal ? 'http://localhost:3000/api/v1/synonyms' : 'https://synon-6f0dbe944806.herokuapp.com/api/v1/synonyms';
+  
   if (word) url += `?search=${encodeURIComponent(word)}`;
   const headers = key ? { 'Authorization': `Bearer ${key}` } : {};
   try {

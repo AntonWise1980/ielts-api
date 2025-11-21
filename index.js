@@ -188,14 +188,17 @@ const apiLimiter = rateLimit({
   },
   skip: (req) => req.isKeyValid === true
 });
-// Handle CORS preflight for /api/synonyms
-app.options('/api/synonyms', (req, res) => res.sendStatus(200));
+// Handle CORS preflight for /api/v1/synonyms
+// Version: Rota güncellendi.
+app.options('/api/v1/synonyms', (req, res) => res.sendStatus(200));
 // Parse JSON and URL-encoded bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// Apply middleware only to /api/synonyms
-app.use('/api/synonyms', validateApiKey); // 1. Validate API key
-app.use('/api/synonyms', apiLimiter); // 2. Apply rate limit if no valid key
+// Apply middleware only to /api/v1/synonyms
+// Version: Rota güncellendi.
+app.use('/api/v1/synonyms', validateApiKey); // 1. Validate API key
+// Version: Rota güncellendi.
+app.use('/api/v1/synonyms', apiLimiter); // 2. Apply rate limit if no valid key
 // Serve static files from 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 // Serve index.html at root
@@ -203,7 +206,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 /**
- * NEW ENDPOINT: /api/synonyms
+ * NEW ENDPOINT: /api/v1/synonyms
+ * - Version: Rota v1 olarak güncellendi.
  * - If no search → returns random word
  * - If ?search=... →
  * 1. First checks 'word' column
@@ -213,7 +217,8 @@ app.get('/', (req, res) => {
  * - word = searched word
  * - original word moved to synonyms array (at the beginning)
  */
-app.get('/api/synonyms', async (req, res) => {
+// Version: Rota güncellendi.
+app.get('/api/v1/synonyms', async (req, res) => {
   const search = req.query.search?.trim();
   const hasKey = !!req.query.key;
   let connection;
@@ -359,22 +364,46 @@ app.get('/api/synonyms', async (req, res) => {
     if (connection) connection.release();
   }
 });
+// Version: Rota güncellendi.
 app.get(['/api', '/api/'], (req, res) => {
   res.json({
     api: "IELTS Synonyms API",
-    version: "1.0",
-    endpoint: "/api/synonyms",
+    version: "v1.0", // Version: Versiyon bilgisi güncellendi.
+    endpoint: "/api/v1/synonyms", // Version: Endpoint v1 olarak güncellendi.
     examples: [
-      "GET /api/synonyms",
-      "GET /api/synonyms?search=fast",
-      "GET /api/synonyms?search=quick&key=YOUR_KEY"
+      "GET /api/v1/synonyms", // Version: Örnekler v1 olarak güncellendi.
+      "GET /api/v1/synonyms?search=fast", // Version: Örnekler v1 olarak güncellendi.
+      "GET /api/v1/synonyms?search=quick&key=YOUR_KEY" // Version: Örnekler v1 olarak güncellendi.
     ],
     rate_limit: "500/day (without key)",
     unlimited: "Use ?key=...",
-    documentation: "http://localhost:3000",
+    documentation: "https://synon-6f0dbe944806.herokuapp.com/",
     contact: "antonwise1980@gmail.com"
   });
 });
+
+// For Informational Purposes.
+app.get(['/api/v1', '/api/v1/'], (req, res) => {
+  res.json({
+    api: "IELTS Synonyms API",
+    version: "v1.0", // Version: Versiyon bilgisi güncellendi.
+    endpoint: "/api/v1/synonyms", // Version: Endpoint v1 olarak güncellendi.
+    examples: [
+      "GET /api/v1/synonyms", // Version: Örnekler v1 olarak güncellendi.
+      "GET /api/v1/synonyms?search=fast", // Version: Örnekler v1 olarak güncellendi.
+      "GET /api/v1/synonyms?search=quick&key=YOUR_KEY" // Version: Örnekler v1 olarak güncellendi.
+    ],
+    rate_limit: "500/day (without key)",
+    unlimited: "Use ?key=...",
+    documentation: "https://synon-6f0dbe944806.herokuapp.com/",
+    contact: "antonwise1980@gmail.com"
+  });
+});
+
+
+
+
+
 
 // REDIS BAĞLANTI TESTİ
 redis.ping()
@@ -388,6 +417,7 @@ app.listen(PORT, () => {
   console.log(`Turkey time: ${startTime}`);
   console.log(`Rate Limit: 500 requests / 24 hours (only for users without key)`);
   console.log(`Unlimited access with API Key is active.`);
-  console.log(`ACTIVE ENDPOINT: http://localhost:${PORT}/api/synonyms`);
+  // Version: Konsol çıktısı güncellendi.
+  console.log(`ACTIVE ENDPOINT: http://localhost:${PORT}/api/v1/synonyms`); 
   console.log(`FIXED: If search term is in synonyms → word = search, original word → synonyms[0]`);
 });
