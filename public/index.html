@@ -88,7 +88,7 @@
     <div class="card p-4 shadow-sm border-0">
       <div class="card-body">
         <h2 class="h3 fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-journal-text me-2 text-primary"></i>What is it?</h2>
-        <p class="lead"><strong>IELTS Synonyms API</strong> is a specialized REST API offering synonyms and antonyms for English words, **optimized for academic and high-stakes exams** like IELTS and TOEFL. <span class="text-danger fw-bold">(Current Version: v1)</span></p>
+        <p class="lead"><strong>IELTS Synonyms API</strong> is a specialized REST API offering synonyms and antonyms for English words, **optimized for academic and high-stakes exams** like IELTS and TOEFL. The vocabulary database is curated to include words commonly found in academic contexts and advanced writing. The API can find the core word group even if the search term is one of the synonyms within that group, ensuring relevant results regardless of the entry point. Access is unlimited when using a free API Key authenticated via a Bearer Token. Without a key, requests are typically limited (e.g., 500 requests per 24 hours). Responses are returned as clean, easy-to-integrate JSON objects.<span class="text-danger fw-bold">(Current Version: v1)</span></p>
         <div class="row g-4 mt-4">
           <div class="col-md-6">
             <h5 class="text-primary fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Key Features</h5>
@@ -116,7 +116,7 @@
     <div class="card p-4 shadow-sm border-0">
       <div class="card-body">
         <h2 class="h3 fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-rocket-takeoff me-2 text-primary"></i>How to use?</h2>
-        <p class="mb-4 lead">The core endpoint is <code class="code-inline">GET /api/v1/synonyms</code>. You can use it in three ways:</p>
+        <p class="mb-4 lead">The core functionality of our API is delivered through a highly optimized and straightforward RESTful approach. All operations are conducted via a single main endpoint: (/api/v1/synonyms). This API offers free access to all users. However, we highly recommend authentication for seamless, high-performance usage. You can use the service for testing and trials within a specific daily request limit (e.g., 500 requests / 24 hours). Using your key grants you unlimited access, allowing you to handle production-level traffic with ease. For security, your key should be sent using the Authorization: Bearer header. The core endpoint is <code class="code-inline">GET /api/v1/synonyms</code>. You can use it in three ways:</p>
         
         <div class="row g-4">
           <div class="col-lg-12">
@@ -156,6 +156,8 @@ Authorization: Bearer <span class="text-danger">YOUR_API_KEY</span></pre>
     <div class="card shadow-lg border-0 bg-white">
       <div class="card-body p-5">
         <h3 class="text-dark text-center mb-5 fw-bold"><i class="bi bi-play-circle me-2 text-primary"></i>Live Test Console (v1)</h3>
+        <p class="mb-4 lead">This console allows you to instantly test the functionality and speed of the IELTS Synonyms API (v1) directly from your browser. Enter a Word: Type any English word (e.g., pivotal, happy, peculiar) into the main input box. If you have a professional API Key, enter it into the "API Key" field. This is highly recommended to bypass the daily rate limit and ensure unlimited testing. Click the Execute button (or press Enter).</p>
+        
         <div class="row g-3">
           <div class="col-md-8">
             <input type="text" id="searchInput" class="form-control form-control-lg border-primary-light" placeholder="Enter a word... (e.g. happy, eccentric, pivotal)">
@@ -252,6 +254,10 @@ Authorization: Bearer <span class="text-danger">YOUR_API_KEY</span></pre>
             <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Deep synonym search (**Reverse Lookup**).</li>
             <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>**Modern Bearer** Token authentication.</li>
             <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Simple, **clean JSON** output.</li>
+
+            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Low Latency (Sub-50ms Response).</li>
+            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Contextually Relevant Results.</li>
+            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Transparent Metadata for Traceability.</li>
           </ul>
         </div>
       </section>
@@ -260,8 +266,8 @@ Authorization: Bearer <span class="text-danger">YOUR_API_KEY</span></pre>
       <section id="get-api-key">
         <div class="card p-4 h-100 shadow border-primary border-4 border-end-0 border-top-0 border-bottom-0">
           <h2 class="h4 fw-bold text-dark border-bottom pb-3 mb-4"><i class="bi bi-key me-2 text-primary"></i>Get Your Free API Key</h2>
-          <p class="lead">Unlock **unlimited** access today!</p>
-          <p class="text-muted-dark">Simply send an email to the developer requesting a free API Key. Keys are issued instantly.</p>
+          <p class="lead">Unlock **unlimited** access today! This API offers free access to all users. However, we highly recommend authentication for seamless, high-performance usage.</p>
+          <p class="text-muted-dark">Simply send an email to the developer requesting a free API Key. Keys are issued instantly.Access is unlimited when using a free API Key authenticated via a Bearer Token. </p>
           <a href="mailto:antonwise1980@gmail.com" class="btn btn-primary btn-lg mt-3"><i class="bi bi-envelope-fill me-2"></i>Request API Key Now</a>
           <small class="d-block mt-2 text-muted-dark">Contact: antonwise1980@gmail.com</small>
         </div>
